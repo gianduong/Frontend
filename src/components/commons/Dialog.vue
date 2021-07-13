@@ -1,4 +1,4 @@
-<template>
+`<template>
   <div class="modal-container">
     <!-- Dialog error -->
     <!--  -->
@@ -48,8 +48,23 @@
         </div>
       </div>
       <div class="modal-close">
-        <div class="modal-icon help-icon"></div>
-        <div class="modal-icon close-icon" @click="onClose"></div>
+        <v-tooltip bottom style="z-index: 100000">
+          <template v-slot:activator="{ on, attrs }">
+            <div class="modal-icon help-icon" v-bind="attrs" v-on="on"></div>
+          </template>
+          <span>Hỏi đáp</span>
+        </v-tooltip>
+        <v-tooltip bottom style="z-index: 100000">
+          <template v-slot:activator="{ on, attrs }">
+            <div
+              class="modal-icon close-icon"
+              @click="onClose"
+              v-bind="attrs"
+              v-on="on"
+            ></div>
+          </template>
+          <span>Thoát</span>
+        </v-tooltip>
       </div>
     </div>
     <!--  -->
@@ -138,7 +153,7 @@
               />
             </div>
           </div>
-          <div class=" pr-6">
+          <div class="pr-6">
             <InputField :label="'Nơi cấp'" v-model="employee.identityPlace" />
           </div>
         </div>
@@ -152,30 +167,30 @@
           <InputField :label="'Địa chỉ'" v-model="employee.address" />
         </div>
         <div class="p-12 group-input">
-          <div class=" pr-6">
+          <div class="pr-6">
             <InputField :label="'ĐT di động'" v-model="employee.phoneNumber" />
           </div>
-          <div class=" pr-6">
+          <div class="pr-6">
             <InputField
               :label="'ĐT cố định'"
               v-model="employee.landlinePhone"
             />
           </div>
-          <div class=" pr-6">
+          <div class="pr-6">
             <InputField :label="'Email'" v-model="employee.email" />
           </div>
         </div>
         <div class="p-12 group-input">
-          <div class=" pr-6">
+          <div class="pr-6">
             <InputField
               :label="'Tài khoản ngân hàng'"
               v-model="employee.bankAccount"
             />
           </div>
-          <div class=" pr-6">
+          <div class="pr-6">
             <InputField :label="'Tên ngân hàng'" v-model="employee.bankName" />
           </div>
-          <div class=" pr-6">
+          <div class="pr-6">
             <InputField :label="'Chi nhánh'" v-model="employee.bankBranch" />
           </div>
         </div>
@@ -306,7 +321,7 @@ export default {
   watch: {
     /**
      * theo dõi đóng mở dialog và thực hiện các tác vụ
-     * CreatedBy : PQHieu(14/06/2021)
+     * CreatedBy : NGDuong(14/06/2021)
      */
     dialogAddOrUpdate() {
       // đóng dialog
@@ -337,7 +352,7 @@ export default {
 
     /**
      * Theo dõi giá trị thông tin nhân viên
-     * CreatedBy: PQHieu(14/06/2021)
+     * CreatedBy: NGDuong(14/06/2021)
      */
     employeeDetail() {
       // format giá trị ngày tháng
@@ -355,7 +370,7 @@ export default {
 
     /**
      * Theo dõi giá trị mã nhân viên thay đổi
-     * CreatedBy : PQhieu(14/06/2021)
+     * CreatedBy : NGDuong(14/06/2021)
      */
     "employee.employeeCode"() {
       if (this.employee.employeeCode.length > 0) {
@@ -365,7 +380,7 @@ export default {
 
     /**
      * Theo dõi giá trị tên nhân viên thay đổi
-     * CreatedBy: PQHieu(14/06/2021)
+     * CreatedBy: NGDuong(14/06/2021)
      */
     "employee.fullName"() {
       if (this.employee.fullName.length > 0) {
@@ -375,7 +390,7 @@ export default {
 
     /**
      * Theo dõi id phòng ban thay đổi
-     * CreatedBy : PQhieu(16/06/2021)
+     * CreatedBy : NGDuong(16/06/2021)
      */
     "employee.deparmentId"() {
       if (this.employee.deparmentId.length > 0) {
@@ -392,7 +407,7 @@ export default {
 
     /**
      * Thay đổi chế độ cất và thêm
-     * CreatedBy : PQHieu(12/06/2021)
+     * CreatedBy : NGDuong(12/06/2021)
      *
      */
     handleSaveAndAdd() {
@@ -407,7 +422,7 @@ export default {
 
     /**
      * đóng dialog cảnh báo
-     * CreatedBy : PQHieu(12/6/2021)
+     * CreatedBy : NGDuong(12/6/2021)
      */
     handleCloseDangerDialog() {
       this.dialogNotifyDanger = false;
@@ -415,7 +430,7 @@ export default {
 
     /**
      * đóng dialog báo lỗi
-     * CreatedBy : PQHieu(12/6/2021)
+     * CreatedBy : NGDuong(12/6/2021)
      */
     handleCloseErrorDialog() {
       this.dialogNotifyError = false;
@@ -423,7 +438,7 @@ export default {
 
     /**
      * đóng dialog báo lỗi
-     * CreatedBy : PQHieu(12/6/2021)
+     * CreatedBy : NGDuong(12/6/2021)
      */
     handleCloseConfirmDialog() {
       this.dialogNotifyConfirm = false;
@@ -431,7 +446,7 @@ export default {
 
     /**
      * đóng tất cả dialog hiện tại
-     * CreatedBy: PQhieu(12/6/2021)
+     * CreatedBy: NGDuong(12/6/2021)
      */
     handleCloseAllDialog() {
       this.handleCloseConfirmDialog();
@@ -440,7 +455,7 @@ export default {
 
     /**
      * thêm hoặc sửa nhân viên
-     * CreatedBy : PQHieu(12/06/2021)
+     * CreatedBy : NGDuong(12/06/2021)
      */
     handleAddOrUpdate() {
       // kiểm tra validate dữ liệu
@@ -454,7 +469,7 @@ export default {
 
     /**
      * Kiểm tra dữ liệu
-     * CreatedBy : PQHieu(13/06/2021)
+     * CreatedBy : NGDuong(13/06/2021)
      */
     validate() {
       var isValid = true;
@@ -485,7 +500,7 @@ export default {
 
     /**
      * thêm nhân viên
-     * CreatedBy : PQHieu(12/06/2021)
+     * CreatedBy : NGDuong(12/06/2021)
      */
     async handleAdd() {
       this.employee.employeeId = uuidv4();
@@ -522,7 +537,7 @@ export default {
 
     /**
      * Cập nhật thông tin nhân viên
-     * CreatedBy : PQHieu(12/06/2021)
+     * CreatedBy : NGDuong(12/06/2021)
      */
     async handelUpdate() {
       try {
@@ -559,7 +574,7 @@ export default {
     /**
      * format lại giá trị ngày tháng để hiển thị
      * @param="date" : giá trị ngày cần format
-     * CreatedBy : PQHieu(12/06/2021)
+     * CreatedBy : NGDuong(12/06/2021)
      */
     formatDateEmployee(date) {
       if (date) {
@@ -571,7 +586,7 @@ export default {
     /**
      * chuyển đổi giá trị ngày tháng về yyyy-mm-dd
      * @param="date" : giá trị ngày cần format
-     * CreatedBy : PQHieu(12/06/2021)
+     * CreatedBy : NGDuong(12/06/2021)
      */
     formatDate(date) {
       if (date) {
@@ -588,7 +603,7 @@ export default {
 
     /**
      * bắt sự kiện đóng dialog và thự hiện so sánh dữ liệu để đưa ra thông báo
-     * CreatedBy : PQhieu(14/06/2021)
+     * CreatedBy : NGDuong(14/06/2021)
      */
     onClose() {
       if (this.modeUpdate) {
@@ -605,7 +620,7 @@ export default {
      * so sánh 2 object
      * @param="object1" : object cần so sánh
      * @param="object2" : object cần so sách
-     * CreatedBy : PQhieu(14/06/2021)
+     * CreatedBy : NGDuong(14/06/2021)
      */
     handleCompareObject(object1, object2) {
       const keys1 = Object.keys(object1);
@@ -626,7 +641,7 @@ export default {
 
     /**
      * Lấy mã nhân viên mới
-     * CreatedBy: PQHieu(12/06/2021)
+     * CreatedBy: NGDuong(12/06/2021)
      */
     async getNewEmployeeCode() {
       try {

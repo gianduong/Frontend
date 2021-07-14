@@ -62,6 +62,7 @@
             :searchField="true"
             v-model="filterValue"
             v-debounce:300ms="handelFilter"
+            ref="toFocus"
           />
         </div>
         <v-tooltip bottom style="z-index: 100000">
@@ -162,52 +163,60 @@
             <!--  -->
           </tbody>
         </table>
-        <!-- Pagination -->
-        <!--  -->
-        <div class="pagination-container">
-          <div class="total-item">
-            Tổng số : <span class="total-value">{{ totalItem }}</span> bản ghi
-          </div>
-          <div class="pagination-wrapper">
-            <div class="dropdown-pagiantion">
-              <CustomSelect
-                tabindex="0"
-                label_key="name"
-                value_key="value"
-                :options="options"
-                v-model="pageSize"
-                @changeValue="handleChangeValue"
-              />
-            </div>
-            <div class="paginations">
-              <button
-                class="pagination-prev-btn"
-                :class="[pageInt > 1 ? 'active' : null]"
-                @click="handlePrev"
-              >
-                Trước
-              </button>
-              <v-pagination
-                v-model="pageInt"
-                :length="totalPage"
-                color="#fff"
-              ></v-pagination>
-              <button
-                class="pagination-next-btn"
-                :class="[pageInt < totalPage ? 'active' : null]"
-                @click="handleNext"
-              >
-                Sau
-              </button>
-            </div>
-          </div>
-        </div>
-        <!-- End of pagination -->
-        <!--  -->
       </div>
       <!-- end table-->
       <!--  -->
     </div>
+    <!-- Pagination -->
+    <!--  -->
+    <div class="pagination-container">
+      <div class="total-item">
+        Tổng số : <span class="total-value">{{ totalItem }}</span> bản ghi
+      </div>
+      <div class="pagination-wrapper">
+        <div class="dropdown-pagiantion">
+          <!-- <CustomSelect
+            tabindex="0"
+            label_key="name"
+            value_key="value"
+            :options="options"
+            v-model="pageSize"
+            @changeValue="handleChangeValue"
+          /> -->
+          <div style="witdh:200px; height:32px;">
+            <Combobox style="witdh:200px; height:32px"
+            :value.sync="handleChangeValue"
+            :suggestions="options"
+          />
+          </div>
+        </div>
+        <div class="paginations">
+          <button
+            class="pagination-prev-btn"
+            :class="[pageInt > 1 ? 'active' : null]"
+            @click="handlePrev"
+          >
+            Trước
+          </button>
+          <v-pagination
+            v-model="pageInt"
+            :length="totalPage"
+            color="#fff"
+            circle
+          ></v-pagination>
+
+          <button
+            class="pagination-next-btn"
+            :class="[pageInt < totalPage ? 'active' : null]"
+            @click="handleNext"
+          >
+            Sau
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- End of pagination -->
+    <!--  -->
     <!-- end main content -->
     <!--  -->
   </div>
@@ -217,6 +226,8 @@
 //#region Import dữ liệu
 import CheckboxField from "../commons/CheckboxField.vue";
 import Button from "../commons/Button.vue";
+import combobox from "../commons/Combobox.vue";
+import Store from "../Store/Store.vue";
 import InputField from "../commons/InputField.vue";
 import Dialog from "../commons/Dialog.vue";
 import axios from "axios";
@@ -237,6 +248,8 @@ export default {
     Employee,
     CustomSelect,
     DialogNotify,
+    Store,
+    combobox,
   },
   //#endregion
 
@@ -285,6 +298,9 @@ export default {
   mounted() {
     this.getListEmployee(); // lấy danh sách nhân viên
     this.getListDepartment(); // lấy danh sách phòng ban
+    setTimeout(() => {
+      this.$refs.toFocus.handleFocus();
+    }, 200);
   },
 
   //#region các hàm Watch
@@ -377,7 +393,7 @@ export default {
 
     /**
      * Chuyển đến page đằng trước
-     
+     * NGDuong (!7/07/2021)
      */
     handlePrev() {
       if (this.pageInt > 1) {
@@ -387,7 +403,7 @@ export default {
 
     /**
      * Chuyển đến page phía sau
-     
+     * NGDuong (!7/07/2021)
      */
     handleNext() {
       if (this.pageInt < this.totalPage) {
@@ -398,7 +414,7 @@ export default {
     /**
      * lấy giá trị pageSize mới
      * @param = "value" : giá trị của page size
-     
+     * NGDuong (!7/07/2021)
      */
     handleChangeValue(value) {
       this.pageSize = value;
@@ -407,7 +423,7 @@ export default {
     /**
      * Hiển thị thông bán cho người dùng
      * @param="message" : Nội dung thông báo cần hiển thị
-     
+     * NGDuong (!7/07/2021)
      */
     handleNotify(message) {
       this.notifyMessage = message;
@@ -417,7 +433,7 @@ export default {
     /**
      * thực hiện nhân bản thông tin nhân viên
      * @param="employeeId" : id nhân viên cần lấy thông tin
-     
+     * NGDuong (!7/07/2021)
      */
     handleDuplicateEmployee(employeeId) {
       this.getEmployeeInfo(employeeId);
@@ -425,7 +441,7 @@ export default {
 
     /**
      * Tìm kiếm theo tên hoặc mã nhân viên
-     
+     * NGDuong (!7/07/2021)
      */
     handelFilter() {
       this.pageInt = 1;
@@ -456,7 +472,6 @@ export default {
         this.showLoading = false; // ẩn loading
       } catch (error) {
         this.showLoading = false; // ẩn loading khi có lỗi
-        console.log(error);
       }
     },
 
@@ -474,7 +489,6 @@ export default {
         this.showLoading = false; // ẩn loading
       } catch (error) {
         this.showLoading = false; // ẩn loading khi có lỗi
-        console.log(error);
       }
     },
 
@@ -492,9 +506,7 @@ export default {
         this.employeeDetail = data.data;
         this.showLoading = false; // ẩn loading
         this.showDialog();
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
 
     /**
@@ -529,6 +541,7 @@ export default {
   background: #f4f5f6;
   padding: 0 20px;
 }
+/**-------title--------- */
 .content-title {
   display: flex;
   align-items: center;
@@ -547,8 +560,9 @@ export default {
   padding: 0 20px;
 }
 .table-content {
-  overflow-x: auto;
-  height: calc(100vh - 94px - 48px - 64px);
+  overflow: auto;
+  display: block;
+  height: calc(100vh - 94px - 48px - 64px + 55px);
 }
 ::-webkit-scrollbar {
   width: 10px;

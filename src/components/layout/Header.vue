@@ -29,7 +29,7 @@
           </template>
           <span>Ảnh đại diện</span>
         </v-tooltip>
-        <span class="name-user" v-tooltip.top-center="msg"
+        <span class="name-user"
           >Nguyễn Giản Dương</span
         >
         <template>

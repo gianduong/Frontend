@@ -37,23 +37,9 @@
     <!-- End of dialog danger -->
     <div class="modal-header-container">
       <div class="modal-header">
-        <h3 class="modal-title">Thông tin nhân viên</h3>
-        <div class="modal-combobox">
-          <div class="combobox-customer">
-            <CheckboxField :content="'Là khách hàng'" />
-          </div>
-          <div class="combobox-provider">
-            <CheckboxField :content="'Là nhà cung cấp'" />
-          </div>
-        </div>
+        <h3 class="modal-title">Thêm mới cửa hàng</h3>
       </div>
       <div class="modal-close">
-        <v-tooltip bottom style="z-index: 100000">
-          <template v-slot:activator="{ on, attrs }">
-            <div class="modal-icon help-icon" v-bind="attrs" v-on="on"></div>
-          </template>
-          <span>Hỏi đáp</span>
-        </v-tooltip>
         <v-tooltip bottom style="z-index: 100000">
           <template v-slot:activator="{ on, attrs }">
             <div
@@ -72,31 +58,48 @@
     <!-- modal content -->
     <!--  -->
     <div class="modal-content-wrapper">
-      <div class="modal-content">
-        <!-- modal content left -->
-        <!--  -->
-        <div class="modal-content-left">
-          <div class="p-12 group-input">
-            <div class="input-code pr-6">
-              <InputField
-                :label="'Mã'"
-                :required="true"
-                v-model="employee.employeeCode"
-                :errorNotify="errorNotifyCode"
-                ref="toFocus"
-              />
-            </div>
-            <div class="input-name">
-              <InputField
-                :label="'Tên'"
-                :required="true"
-                v-model="employee.fullName"
-                :errorNotify="errorNotifyFullName"
-              />
-            </div>
+      <div class="model-content-top">
+        <div class="content-base content-ma">
+          <div class="grow-2">Mã cửa hàng</div>
+          <InputField
+            tabindex="1"
+            class="grow-8"
+            v-model="employee.employeeCode"
+            :errorNotify="errorNotifyCode"
+            ref="toFocus"
+          />
+        </div>
+        <div class="content-base content-ma">
+          <div class="grow-2">Tên cửa hàng</div>
+          <InputField
+            tabindex="2"
+            class="grow-8"
+            v-model="employee.employeeCode"
+            :errorNotify="errorNotifyCode"
+          />
+        </div>
+        <div class="content-base content-ma" style="height: 50px">
+          <div class="grow-2">Địa chỉ</div>
+          <InputField
+            tabindex="3"
+            class="grow-6"
+            v-model="employee.employeeCode"
+            :errorNotify="errorNotifyCode"
+          />
+        </div>
+      </div>
+      <div class="model-content-bottom content-base">
+        <div class="content-bottom-left grow-5">
+          <div class="content-base grow-5">
+            <div class="grow-2">Số điện thoại</div>
+            <InputField
+              class="grow-2"
+              v-model="employee.employeeCode"
+              :errorNotify="errorNotifyCode"
+            />
           </div>
-          <div class="p-12">
-            <label>Đơn vị</label>
+          <div class="content-base grow-5">
+            <div class="grow-2">Quốc gia</div>
             <v-autocomplete
               solo
               v-model="employee.deparmentId"
@@ -108,90 +111,63 @@
               :error-messages="errorNotifyDepartment.errorMessage"
             ></v-autocomplete>
           </div>
-          <div class="p-12">
-            <InputField :label="'Chức danh'" v-model="employee.positionName" />
+          <div class="content-base grow-5">
+            <div class="grow-2">Tỉnh/Thành phố</div>
+            <v-autocomplete
+              solo
+              v-model="employee.deparmentId"
+              :items="listDepartment"
+              item-text="deparmentName"
+              item-value="deparmentId"
+              no-data-text="Không có dữ liệu"
+              :error="errorNotifyDepartment.status"
+              :error-messages="errorNotifyDepartment.errorMessage"
+            ></v-autocomplete>
+          </div>
+          <div class="content-base grow-5">
+            <div class="grow-2">Phường/Xã</div>
+            <v-autocomplete
+              solo
+              v-model="employee.deparmentId"
+              :items="listDepartment"
+              item-text="deparmentName"
+              item-value="deparmentId"
+              no-data-text="Không có dữ liệu"
+              :error="errorNotifyDepartment.status"
+              :error-messages="errorNotifyDepartment.errorMessage"
+            ></v-autocomplete>
           </div>
         </div>
-        <!--  -->
-        <!-- end modal content left -->
-        <!-- modal content right -->
-        <!--  -->
-        <div class="modal-content-right">
-          <div class="p-12 group-input">
-            <div class="input-date pr-6">
-              <InputField
-                :label="'Ngày sinh'"
-                type="date"
-                v-model="employee.dateOfBirth"
-              />
-            </div>
-            <!-- gender -->
-            <!--  -->
-            <v-radio-group v-model="employee.gender">
-              <label class="gender-label">Giới tính</label>
-              <div class="radio-container">
-                <v-radio :label="'Nam'" :value="1" color="#2ca01c"></v-radio>
-                <v-radio :label="'Nữ'" :value="0" color="#2ca01c"></v-radio>
-                <v-radio :label="'Khác'" :value="2" color="#2ca01c"></v-radio>
-              </div>
-            </v-radio-group>
-            <!--  -->
-            <!-- end gender -->
-          </div>
-          <div class="p-12 group-input">
-            <div class="input-editer pr-6">
-              <InputField
-                :label="'Số CMND'"
-                v-model="employee.identityNumber"
-              />
-            </div>
-            <div class="input-date-rage">
-              <InputField
-                :label="'Ngày cấp'"
-                type="date"
-                v-model="employee.identityDate"
-              />
-            </div>
-          </div>
-          <div class="pr-6">
-            <InputField :label="'Nơi cấp'" v-model="employee.identityPlace" />
-          </div>
-        </div>
-        <!--  -->
-        <!-- end modal content right -->
-      </div>
-      <!-- modal content bottom-->
-      <!--  -->
-      <div class="modal-content-bottom pt-24">
-        <div class="p-12">
-          <InputField :label="'Địa chỉ'" v-model="employee.address" />
-        </div>
-        <div class="p-12 group-input">
-          <div class="pr-6">
-            <InputField :label="'ĐT di động'" v-model="employee.phoneNumber" />
-          </div>
-          <div class="pr-6">
+        <div class="content-bottom-right grow-5">
+          <div class="content-base grow-5">
+            <div class="grow-2">Mã số thuế</div>
             <InputField
-              :label="'ĐT cố định'"
-              v-model="employee.landlinePhone"
+              class="grow-2"
+              v-model="employee.employeeCode"
+              :errorNotify="errorNotifyCode"
             />
           </div>
-          <div class="pr-6">
-            <InputField :label="'Email'" v-model="employee.email" />
+          <div class="content-base grow-5">
+            <div class="grow-2">Quận/Huyện</div>
+            <v-autocomplete
+              solo
+              v-model="employee.deparmentId"
+              :items="listDepartment"
+              item-text="deparmentName"
+              item-value="deparmentId"
+              no-data-text="Không có dữ liệu"
+              :error="errorNotifyDepartment.status"
+              :error-messages="errorNotifyDepartment.errorMessage"
+            ></v-autocomplete>
           </div>
-        </div>
-        <div class="p-12 group-input">
-          <div class="pr-6">
+          <div class="grow-5" style="height: 36px"></div>
+          <div class="content-base grow-5">
+            <div class="grow-2">Đường phố</div>
             <InputField
-              :label="'Tài khoản ngân hàng'"
-              v-model="employee.bankAccount"
+              class="grow-2"
+              v-model="employee.employeeCode"
+              :errorNotify="errorNotifyCode"
             />
-          </div>
-          <div class="pr-6">
-            <InputField :label="'Tên ngân hàng'" v-model="employee.bankName" />
-          </div>
-          <div class="pr-6">
-            <InputField :label="'Chi nhánh'" v-model="employee.bankBranch" />
           </div>
         </div>
       </div>
@@ -238,6 +214,40 @@ export default {
     "modeUpdate",
   ],
   //#endregion
+
+  //#region Component
+  components: {
+    Button,
+    InputField,
+    CheckboxField,
+    DialogNotify,
+  },
+  //#endregion
+
+  //#region Created
+  created() {
+    if (this.employeeDetail) {
+      this.employee = { ...this.employeeDetail };
+      this.compareObject = this.employeeDetail;
+      // format giá trị ngày tháng
+      this.employee.dateOfBirth = this.formatDateEmployee(
+        this.employee.dateOfBirth
+      );
+      this.employee.identityDate = this.formatDateEmployee(
+        this.employee.identityDate
+      );
+      setTimeout(() => {
+        this.$refs.toFocus.handleFocus();
+      }, 200);
+    } else {
+      this.getNewEmployeeCode();
+      setTimeout(() => {
+        this.$refs.toFocus.handleFocus();
+      }, 200);
+    }
+  },
+  //#endregion
+
   //#region Data
   data() {
     return {
@@ -280,39 +290,6 @@ export default {
         errorMessage: "",
       },
     };
-  },
-  //#endregion
-  
-  //#region Component
-  components: {
-    Button,
-    InputField,
-    CheckboxField,
-    DialogNotify,
-  },
-  //#endregion
-
-  //#region Created
-  created() {
-    if (this.employeeDetail) {
-      this.employee = { ...this.employeeDetail };
-      this.compareObject = this.employeeDetail;
-      // format giá trị ngày tháng
-      this.employee.dateOfBirth = this.formatDateEmployee(
-        this.employee.dateOfBirth
-      );
-      this.employee.identityDate = this.formatDateEmployee(
-        this.employee.identityDate
-      );
-      setTimeout(() => {
-        this.$refs.toFocus.handleFocus();
-      }, 200);
-    } else {
-      this.getNewEmployeeCode();
-      setTimeout(() => {
-        this.$refs.toFocus.handleFocus();
-      }, 200);
-    }
   },
   //#endregion
 
@@ -661,18 +638,20 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal-container {
   position: relative;
   background: #fff;
   height: 100%;
   overflow-y: auto;
-  box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
+  box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%),
+    0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
 }
 .modal-header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #f1f1f1;
 }
 .modal-header {
   padding: 20px 12px 20px 32px;
@@ -718,9 +697,61 @@ export default {
 /* modal content */
 .modal-content-wrapper {
   padding: 0 32px 20px 32px;
+  width: 100%;
+  height: 460px;
+
+  span {
+    text-align: center;
+  }
 }
 .modal-content {
   display: flex;
+}
+
+.content-base {
+  display: flex;
+  align-items: stretch;
+  margin: 5px 5px 10px 5px;
+}
+
+.grow-2 {
+  flex-grow: 2;
+}
+
+.grow-3 {
+  flex-grow: 3;
+}
+
+.grow-4 {
+  flex-grow: 4;
+}
+
+.grow-5 {
+  flex-grow: 5;
+}
+
+.grow-6 {
+  flex-grow: 6;
+}
+
+.grow-7 {
+  flex-grow: 7;
+}
+
+.grow-8 {
+  flex-grow: 8;
+}
+
+/**---------content top */
+.model-content-top {
+  width: 100%;
+  height: 50%;
+}
+
+/**---------content bottom */
+.model-content-bottom {
+  width: 100%;
+  height: 50%;
 }
 /* input */
 .group-input {

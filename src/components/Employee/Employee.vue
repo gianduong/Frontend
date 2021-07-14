@@ -201,7 +201,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .fix-container {
   position: relative;
   z-index: 5;
@@ -216,9 +216,9 @@ export default {
   padding: 0 5px;
   border: 1px solid transparent;
   width: 26px;
-}
-.drop-icon-wrap.active {
-  border-color: #0075c0;
+  &.active {
+    border-color: #0075c0;
+  }
 }
 .drop-option {
   position: absolute;
@@ -226,23 +226,30 @@ export default {
   right: -10px;
   visibility: hidden;
   opacity: 0;
+  border: 1px solid #babec5;
+  width: 120.6px;
+  border-radius: 3px;
+  background: #fff;
+  padding: 2px 1px;
+
+  &.active {
+    visibility: visible;
+    opacity: 1;
+    top: calc(100% + 7px);
+    transition: 0.2s linear;
+  }
+  .drop-top {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    right: -10px;
+    top: auto;
+
+    &.active {
+      bottom: calc(100% + 7px);
+    }
+  }
 }
 
-.drop-option.active {
-  visibility: visible;
-  opacity: 1;
-  top: calc(100% + 7px);
-  transition: 0.2s linear;
-}
-.drop-option.drop-top {
-  position: absolute;
-  bottom: calc(100% + 10px);
-  right: -10px;
-  top: auto;
-}
-.drop-option.drop-top.active {
-  bottom: calc(100% + 7px);
-}
 .drop-icon {
   width: 16px;
   height: 14px;
@@ -250,19 +257,13 @@ export default {
   max-width: 16px;
   background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat -897px -360px;
 }
-.drop-option {
-  border: 1px solid #babec5;
-  width: 120.6px;
-  border-radius: 3px;
-  background: #fff;
-  padding: 2px 1px;
-}
+
 .option {
   padding: 5px 10px;
   text-align: left;
-}
-.option:hover {
-  background: #e8e9ec;
-  color: #08bf1e;
+  &:hover {
+    background: #e8e9ec;
+    color: #08bf1e;
+  }
 }
 </style>

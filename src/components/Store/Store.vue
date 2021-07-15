@@ -59,31 +59,31 @@
     <!--  -->
     <div class="modal-content-wrapper">
       <div class="model-content-top">
-        <div class="content-base content-ma">
-          <div class="grow-1">Mã cửa hàng</div>
+        <div class="content-base ">
+          <div class="grow-1">Mã cửa hàng <span style="color:red"> *</span></div>
           <InputField
             tabindex="1"
-            style="flex-grow:7.5"
+            style="flex-grow:7.4"
             v-model="employee.employeeCode"
             :errorNotify="errorNotifyCode"
             ref="toFocus"
           />
         </div>
-        <div class="content-base content-ma">
-          <div class="grow-1">Tên cửa hàng</div>
+        <div class="content-base ">
+          <div class="grow-1">Tên cửa hàng <span style="color:red"> *</span></div>
           <InputField
             tabindex="2"
             style="flex-grow:7.5"
-            v-model="employee.employeeCode"
-            :errorNotify="errorNotifyCode"
+            v-model="employee.fullName"
+            :errorNotify="errorNotifyFullName"
           />
         </div>
-        <div class="content-base content-ma">
-          <div class="grow-1">Địa chỉ</div>
+        <div class="content-base ">
+          <div class="grow-1">Địa chỉ <span style="color:red"> *</span></div>
           <InputField
             style="height:91px; flex-grow:4.5"
             tabindex="3"
-            v-model="employee.employeeCode"
+            v-model="employee.address"
             :errorNotify="errorNotifyCode"
           />
         </div>
@@ -180,17 +180,17 @@
     <!-- end modal content -->
     <!-- modal footer -->
     <!--  -->
-    <div class="modal-footer-container">
-      <div class="modal-footer">
-        <div class="btn-cancel" @click="$emit('handleCloseDialog')">
-          <Button :content="'Hủy'" :btnWhite="true" />
+    <div class="modal-footer-container" tabindex="1">
+      <div class="modal-footer" tabindex="2">
+        <div class="btn-cancel" tabindex="3" @click="$emit('handleCloseDialog')">
+          <Button :content="'Hủy'" :btnWhite="true"  />
         </div>
         <div class="btn-group">
           <div class="par-12" @click="handleAddOrUpdate">
-            <Button :content="'Cất'" :btnWhite="true" />
+            <Button :content="'Cất'" :btnWhite="true"/>
           </div>
           <div @click="handleSaveAndAdd">
-            <Button :content="'Cất và Thêm'" />
+            <Button :content="'Cất và Thêm'" tabindex="4"/>
           </div>
         </div>
       </div>
@@ -293,6 +293,10 @@ export default {
         status: false, // bắt validate đơn vị
         errorMessage: "",
       },
+      errorNotifyAddress: {
+        status: false, // bắt validate địa chỉ
+        errorMessage: "",
+      },
     };
   },
   //#endregion
@@ -312,6 +316,7 @@ export default {
           status: false,
           errorMessage: "",
         };
+        this.errorNotifyAddress = {...resetData};
         this.errorNotifyCode = { ...resetData }; // reset hiển thị validate Code
         this.errorNotifyFullName = { ...resetData }; // reset hiển thị validate fullName
         this.errorNotifyDepartment = { ...resetData }; // reset hiển thị validate department
@@ -376,6 +381,16 @@ export default {
       if (this.employee.deparmentId.length > 0) {
         this.errorNotifyDepartment.status = false;
         this.errorNotifyDepartment.errorMessage = "";
+      }
+    },
+    /**
+     * Theo dõi id phòng ban thay đổi
+     * CreatedBy : NGDuong(16/06/2021)
+     */
+    "employee.address"() {
+      if (this.employee.address.length > 0) {
+        this.errorNotifyAddress.status = false;
+        this.errorNotifyAddress.errorMessage = "";
       }
     },
   },
@@ -460,7 +475,13 @@ export default {
         this.dialogNotifyError = true;
         isValid = false;
       }
-
+      if (this.employee.address.length == 0) {
+        this.notifyMessage = "Địa chỉ không được để trống";
+        this.errorNotifyAddress.status = true;
+        this.errorNotifyCode.errorMessage = "Địa chỉ không được để trống";
+        this.errorNotifyAddress = true; // hiển thị dialog báo lỗi
+        isValid = false;
+      }
       if (this.employee.fullName.length == 0) {
         this.notifyMessage = "Tên không được để trống";
         this.errorNotifyFullName.status = true;
@@ -475,6 +496,7 @@ export default {
         this.dialogNotifyError = true; // hiển thị dialog báo lỗi
         isValid = false;
       }
+
       return isValid;
     },
 

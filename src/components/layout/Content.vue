@@ -183,7 +183,7 @@
             v-model="pageSize"
             @changeValue="handleChangeValue"
           /> -->
-          <div style="witdh: 200px; height: 32px">
+          <div style="witdh: 200px; height: 32px;">
             <Combobox :value.sync="handleChangeValue" :suggestions="options" @ChangeValue="handleChangeValue"/>
           </div>
         </div>

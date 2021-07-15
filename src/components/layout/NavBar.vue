@@ -25,7 +25,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-dasboard"></div>
                 </div>
-                <span>Tổng quan</span></a
+                <span :class="{hidden: !isShow}">Tổng quan</span></a
               >
             </template>
             <span>Tổng quan</span>
@@ -39,7 +39,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-cash"></div>
                 </div>
-                <span>Tiền mặt</span></a
+                <span :class="{hidden: !isShow}">Tiền mặt</span></a
               >
             </template>
             <span>Tiền mặt</span>
@@ -52,7 +52,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-bank"></div>
                 </div>
-                <span>Tiền gửi</span></a
+                <span :class="{hidden: !isShow}">Tiền gửi</span></a
               >
             </template>
             <span>Tiền gửi</span>
@@ -65,7 +65,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-pu"></div>
                 </div>
-                <span>Mua hàng</span></a
+                <span :class="{hidden: !isShow}">Mua hàng</span></a
               >
             </template>
             <span>Mua hàng</span>
@@ -78,7 +78,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-sale"></div>
                 </div>
-                <span>Bán hàng</span></a
+                <span :class="{hidden: !isShow}">Bán hàng</span></a
               >
             </template>
             <span>Bán hàng</span>
@@ -91,7 +91,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-invoice"></div>
                 </div>
-                <span>Quản lý hóa đơn</span></a
+                <span :class="{hidden: !isShow}">Quản lý hóa đơn</span></a
               >
             </template>
             <span>Quản lý hóa đơn</span>
@@ -104,7 +104,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-stock"></div>
                 </div>
-                <span>Kho</span></a
+                <span :class="{hidden: !isShow}">Kho</span></a
               >
             </template>
             <span>Kho</span>
@@ -117,7 +117,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-tools"></div>
                 </div>
-                <span>Công cụ dụng cụ</span></a
+                <span :class="{hidden: !isShow}">Công cụ dụng cụ</span></a
               >
             </template>
             <span>Công cụ dụng cụ</span>
@@ -130,7 +130,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-assets"></div>
                 </div>
-                <span>Tài sản cố định</span></a
+                <span :class="{hidden: !isShow}">Tài sản cố định</span></a
               >
             </template>
             <span>Tài sản cố định</span>
@@ -143,7 +143,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-tax"></div>
                 </div>
-                <span>Thuế</span></a
+                <span :class="{hidden: !isShow}">Thuế</span></a
               >
             </template>
             <span>Thuế</span>
@@ -156,7 +156,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-price"></div>
                 </div>
-                <span>Giá thành</span></a
+                <span :class="{hidden: !isShow}">Giá thành</span></a
               >
             </template>
             <span>Giá thành</span>
@@ -169,7 +169,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-general"></div>
                 </div>
-                <span>Tổng hợp</span></a
+                <span :class="{hidden: !isShow}">Tổng hợp</span></a
               >
             </template>
             <span>Tổng hợp</span>
@@ -182,7 +182,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-budget"></div>
                 </div>
-                <span>Ngân sách</span></a
+                <span :class="{hidden: !isShow}">Ngân sách</span></a
               >
             </template>
             <span>Ngân sách</span>
@@ -195,7 +195,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-report"></div>
                 </div>
-                <span>Báo cáo</span></a
+                <span :class="{hidden: !isShow}">Báo cáo</span></a
               >
             </template>
             <span>Báo cáo</span>
@@ -208,7 +208,7 @@
                 ><div class="nav-logo-container">
                   <div class="nav-logo logo-finance"></div>
                 </div>
-                <span>Phân tích tài chính</span></a
+                <span :class="{hidden: !isShow}">Phân tích tài chính</span></a
               >
             </template>
             <span>Phân tích tài chính</span>
@@ -222,7 +222,11 @@
 
 <script>
 // import ada from "../../assets/img"
-export default {};
+export default {
+   data: () => ({
+    isShow: false,
+  })
+};
 </script>
 
 <style lang="scss" scoped>
@@ -256,7 +260,6 @@ export default {};
 .nav-list-container {
   padding-top: 14px;
   max-height: calc(100vh - 48px);
-  overflow-y: auto;
 }
 .nav-item {
   height: 42px;
@@ -343,4 +346,9 @@ export default {};
 .logo-finance {
   background-position: -204px -1664px;
 }
+
+.hidden {
+  overflow:hidden;
+}
+
 </style>

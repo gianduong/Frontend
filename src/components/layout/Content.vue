@@ -456,6 +456,7 @@ export default {
      
      */
     async getListEmployee() {
+      // debugger;
       try {
         this.showLoading = true; // hiện loading
         const data = await axios.get(

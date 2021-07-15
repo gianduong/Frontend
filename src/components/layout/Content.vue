@@ -183,11 +183,8 @@
             v-model="pageSize"
             @changeValue="handleChangeValue"
           /> -->
-          <div style="witdh:200px; height:32px;">
-            <Combobox style="witdh:200px; height:32px"
-            :value.sync="handleChangeValue"
-            :suggestions="options"
-          />
+          <div style="witdh: 200px; height: 32px">
+            <Combobox :value.sync="handleChangeValue" :suggestions="options" @ChangeValue="handleChangeValue"/>
           </div>
         </div>
         <div class="paginations">
@@ -226,7 +223,7 @@
 //#region Import dữ liệu
 import CheckboxField from "../commons/CheckboxField.vue";
 import Button from "../commons/Button.vue";
-import combobox from "../commons/Combobox.vue";
+import Combobox from "../commons/Combobox.vue";
 import Store from "../Store/Store.vue";
 import InputField from "../commons/InputField.vue";
 import Dialog from "../commons/Dialog.vue";
@@ -249,7 +246,7 @@ export default {
     CustomSelect,
     DialogNotify,
     Store,
-    combobox,
+    Combobox,
   },
   //#endregion
 
@@ -530,7 +527,7 @@ export default {
 .loading {
   background-image: url("../../assets/load-data.gif");
   position: fixed;
-  top: 50%;
+  top: 40%;
   left: 50%;
   width: 100%;
   height: 100%;

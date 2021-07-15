@@ -35,7 +35,7 @@
           clickSuggestion(suggestion, index), getIndex(), getValue()
         "
       >
-        {{ suggestion.text }}
+        {{ suggestion.deparmentName }}
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@ export default {
      * Danh sách suggestion của autocomplete.
      */
     suggestions: {
-      type: Array,
+      type: Object,
       required: true,
     },
 
@@ -56,7 +56,7 @@ export default {
      * Giá trị khởi tạo cho input
      */
     value: {
-      type: Number,
+      type: Number/String,
       default: null,
     },
   },
@@ -98,16 +98,23 @@ export default {
       }
     },
     /**
+     * Emit get data
+     * CreatedBy: NGDuong (15/07/2021)
+     */
+    getData(){
+      this.$emit("getDepartmentId", this.suggestionData[this.current].deparmentId);
+    },
+    /**
      * getIndex
      */
     getIndex() {
-      console.log("id=" + this.suggestionData[this.current].value);
+      console.log("id=" + this.suggestionData[this.current].deparmentId);
     },
     /**
      * get Value
      */
     getValue() {
-      console.log("value=" + this.suggestionData[this.current].text);
+      console.log("value=" + this.suggestionData[this.current].deparmentName);
     },
     /**
      * Hiển thị popup
@@ -212,7 +219,7 @@ $color-white: #fff;
 }
 
 @mixin icon-default {
-  background-image: url("./assets/Sprites.64af8f61.svg");
+  background-image: url("../../assets/img/Sprites.64af8f61.svg");
   background-repeat: no-repeat;
   display: inline-block;
 }
@@ -226,23 +233,6 @@ $color-white: #fff;
 .flex-row-align-center {
   @include flex-row();
   align-items: center;
-}
-
-// style chung
-* {
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: inherit;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-size: 13px;
-  font-family: NotoSans;
-  overflow-y: auto;
-  scroll-behavior: smooth;
 }
 
 a {

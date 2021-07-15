@@ -99,6 +99,7 @@
             <label>Đơn vị</label>
             <v-autocomplete
               solo
+              label="Chọn Đơn vị"
               v-model="employee.deparmentId"
               :items="listDepartment"
               item-text="deparmentName"
@@ -282,7 +283,7 @@ export default {
     };
   },
   //#endregion
-  
+
   //#region Component
   components: {
     Button,
@@ -418,7 +419,13 @@ export default {
         } else this.handelUpdate();
       }
     },
-
+    /**
+     * Get dữ liệu đã chọn từ auto complete
+     * CreatedBy: NGDuong (15/07/2021)
+     */
+    getDepartmentId(data){
+      this.employee.deparmentId = data;
+    },
     /**
      * đóng dialog cảnh báo
      * CreatedBy : NGDuong(12/6/2021)
@@ -667,7 +674,8 @@ export default {
   background: #fff;
   height: 100%;
   overflow-y: auto;
-  box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
+  box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%),
+    0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
 }
 .modal-header-container {
   display: flex;
@@ -694,7 +702,7 @@ export default {
 }
 
 .modal-close {
-  padding: 12px;
+  padding: 0 12px 12px 12px;
   display: flex;
   align-items: center;
 }

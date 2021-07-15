@@ -26,9 +26,9 @@
       <div class="fix-container">
         <span @click="getEmployeeInfoId(employee.employeeId)">Sửa</span>
 
-        <div class="choose-btn">
+        <div class="choose-btn" @focusout="closeDrop">
           <!-- dropdown -->
-          <div class="drop-container" tabindex="0" @focusout="closeDrop">
+          <div class="drop-container" tabindex="0" >
             <div
               class="drop-icon-wrap"
               @click="handelShowDrop"

@@ -86,9 +86,14 @@ export default {
 </script>
 
 <style scoped>
+.field-input-container {
+  height: 100%;
+}
+
 .input-field {
   position: relative;
-  max-height: 32px;
+  height: 100%;
+  /* max-height: 32px; */
 }
 .input-field input {
   padding: 6px 11px;
@@ -96,7 +101,8 @@ export default {
   border: 1px solid #babec5;
   outline: none;
   width: 100%;
-  max-height: 32px;
+  height: 100%;
+  /* max-height: 32px; */
 }
 .input-field input:focus {
   border-color: #2ca01c;

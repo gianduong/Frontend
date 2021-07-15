@@ -22,7 +22,7 @@
           </template>
 
           <v-card height="600px">
-            <Dialog
+            <Store
               :employeeDetail="employeeDetail"
               @handleCloseDialog="closeDialog"
               @handleShowDialog="showDialog"

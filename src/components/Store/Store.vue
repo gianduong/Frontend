@@ -60,29 +60,29 @@
     <div class="modal-content-wrapper">
       <div class="model-content-top">
         <div class="content-base content-ma">
-          <div class="grow-2">Mã cửa hàng</div>
+          <div class="grow-1">Mã cửa hàng</div>
           <InputField
             tabindex="1"
-            class="grow-8"
+            style="flex-grow:7.5"
             v-model="employee.employeeCode"
             :errorNotify="errorNotifyCode"
             ref="toFocus"
           />
         </div>
         <div class="content-base content-ma">
-          <div class="grow-2">Tên cửa hàng</div>
+          <div class="grow-1">Tên cửa hàng</div>
           <InputField
             tabindex="2"
-            class="grow-8"
+            style="flex-grow:7.5"
             v-model="employee.employeeCode"
             :errorNotify="errorNotifyCode"
           />
         </div>
-        <div class="content-base content-ma" style="height: 50px">
-          <div class="grow-2">Địa chỉ</div>
+        <div class="content-base content-ma">
+          <div class="grow-1">Địa chỉ</div>
           <InputField
+            style="height:91px; flex-grow:4.5"
             tabindex="3"
-            class="grow-6"
             v-model="employee.employeeCode"
             :errorNotify="errorNotifyCode"
           />
@@ -93,7 +93,7 @@
           <div class="content-base grow-5">
             <div class="grow-2">Số điện thoại</div>
             <InputField
-              class="grow-2"
+              style="flex-grow:2.2"
               v-model="employee.employeeCode"
               :errorNotify="errorNotifyCode"
             />
@@ -102,6 +102,7 @@
             <div class="grow-2">Quốc gia</div>
             <v-autocomplete
               solo
+              style="flex-grow:1"
               v-model="employee.deparmentId"
               :items="listDepartment"
               item-text="deparmentName"
@@ -114,6 +115,7 @@
           <div class="content-base grow-5">
             <div class="grow-2">Tỉnh/Thành phố</div>
             <v-autocomplete
+              class="grow-2"
               solo
               v-model="employee.deparmentId"
               :items="listDepartment"
@@ -128,6 +130,7 @@
             <div class="grow-2">Phường/Xã</div>
             <v-autocomplete
               solo
+              style="flex-grow:1.2"
               v-model="employee.deparmentId"
               :items="listDepartment"
               item-text="deparmentName"
@@ -142,7 +145,7 @@
           <div class="content-base grow-5">
             <div class="grow-2">Mã số thuế</div>
             <InputField
-              class="grow-2"
+              style="flex-grow:2.5"
               v-model="employee.employeeCode"
               :errorNotify="errorNotifyCode"
             />
@@ -150,6 +153,7 @@
           <div class="content-base grow-5">
             <div class="grow-2">Quận/Huyện</div>
             <v-autocomplete
+            class="grow-2"
               solo
               v-model="employee.deparmentId"
               :items="listDepartment"
@@ -164,7 +168,7 @@
           <div class="content-base grow-5">
             <div class="grow-2">Đường phố</div>
             <InputField
-              class="grow-2"
+              style="flex-grow:2.5"
               v-model="employee.employeeCode"
               :errorNotify="errorNotifyCode"
             />
@@ -639,6 +643,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+@mixin witdhheight($w,$h){
+  width: $w;
+  height: $h;
+}
+
+@mixin flex{
+  display: flex;
+  align-items: center;
+}
+
 .modal-container {
   position: relative;
   background: #fff;
@@ -648,9 +663,8 @@ export default {
     0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
 }
 .modal-header-container {
-  display: flex;
+  @include flex;
   justify-content: space-between;
-  align-items: center;
   background-color: #f1f1f1;
 }
 .modal-header {
@@ -664,9 +678,9 @@ export default {
   font-weight: 700;
 }
 .radio-container {
-  display: flex;
+  @include flex;
   justify-content: center;
-  align-items: center;
+
 }
 .modal-combobox {
   display: flex;
@@ -682,8 +696,7 @@ export default {
   padding: 0 19.5px;
 }
 .modal-icon {
-  width: 24px;
-  height: 24px;
+  @include witdhheight(24px,24px);
   cursor: pointer;
   background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat;
 }
@@ -697,8 +710,7 @@ export default {
 /* modal content */
 .modal-content-wrapper {
   padding: 0 32px 20px 32px;
-  width: 100%;
-  height: 460px;
+  @include witdhheight(100%,460px );
 
   span {
     text-align: center;
@@ -713,50 +725,25 @@ export default {
   align-items: stretch;
   margin: 5px 5px 10px 5px;
 }
-
-.grow-2 {
-  flex-grow: 2;
-}
-
-.grow-3 {
-  flex-grow: 3;
-}
-
-.grow-4 {
-  flex-grow: 4;
-}
-
-.grow-5 {
-  flex-grow: 5;
-}
-
-.grow-6 {
-  flex-grow: 6;
-}
-
-.grow-7 {
-  flex-grow: 7;
-}
-
-.grow-8 {
-  flex-grow: 8;
+$sizes: 1,2,3,4,5,6,7,8,9,10;
+@each $size in $sizes {
+  .grow-#{$size} {
+    flex-grow: $size;
+  }
 }
 
 /**---------content top */
 .model-content-top {
-  width: 100%;
-  height: 50%;
+  @include witdhheight(100%,50% );
 }
 
 /**---------content bottom */
 .model-content-bottom {
-  width: 100%;
-  height: 50%;
+  @include witdhheight(100%,50% );
 }
 /* input */
 .group-input {
-  display: flex;
-  align-items: center;
+  @include flex;
 }
 .input-code,
 .input-date-rage {
@@ -790,15 +777,14 @@ export default {
 }
 /* combobox */
 .combobox-gender {
-  display: flex;
+  @include flex;
   height: 32px;
-  align-items: center;
+
   padding: 5px 0 6px 10px;
 }
 .combobox-icon {
   position: relative;
-  width: 18px;
-  height: 18px;
+  @include witdhheight(18px,18px );
   border: 1px solid #b0b0b0;
   border-radius: 50%;
   cursor: pointer;
@@ -807,13 +793,13 @@ export default {
   border-color: #2ca01c;
 }
 .combobox-icon.active::before {
+  @include witdhheight(10px,10px );
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 10px;
-  height: 10px;
+  
   border-radius: 50%;
   background: #2ca01c;
 }
@@ -846,10 +832,8 @@ export default {
   background: #fff;
 }
 .modal-footer {
-  display: flex;
-  height: 100%;
-  width: 100%;
-  align-items: center;
+  @include flex;
+  @include witdhheight(100%, 100%); 
   justify-content: space-between;
   border-top: 1px solid #babec5;
 }

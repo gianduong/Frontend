@@ -80,8 +80,8 @@
         </div>
         <div class="content-base ">
           <div class="grow-1">Địa chỉ <span style="color:red"> *</span></div>
-          <InputField
-            style="height:91px; flex-grow:4.5"
+          <InputTextArea 
+            style="flex-grow:2.5"
             tabindex="3"
             v-model="employee.address"
             :errorNotify="errorNotifyAddress"
@@ -202,6 +202,7 @@
 //#region Import dữ liệu
 import Button from "../commons/Button.vue";
 import InputField from "../commons/InputField.vue";
+import InputTextArea from "../commons/InputTextArea.vue";
 import CheckboxField from "../commons/CheckboxField.vue";
 import DefaultEmployee from "../constant/DefaultEmployee";
 import DialogNotify from "../commons/DialogNotify.vue";
@@ -225,6 +226,7 @@ export default {
     InputField,
     CheckboxField,
     DialogNotify,
+    InputTextArea,
   },
   //#endregion
 

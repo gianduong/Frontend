@@ -157,6 +157,7 @@
               @handleGetEmployeeID="getEmployeeID"
               @handleReload="getListEmployee"
               :listDeparment="listDepartment"
+              :listDepartmentCombobox="listDepartmentCombobox"
               @duplicateEmployee="handleDuplicateEmployee"
             />
             <!-- End of employee detail -->
@@ -272,6 +273,7 @@ export default {
       dialogNotify: false, // hiển thị dialog thông báo cho người dùng
       notifyMessage: "", // message được hiển thị trên dialog
       // Giá trị option truyền vào customSelect
+      listDepartmentCombobox: [],
       options: [
         {
           value: 10,
@@ -489,6 +491,11 @@ export default {
           "https://localhost:44376/api/v1/Departments"
         );
         this.listDepartment = data.data;
+        this.listDepartmentCombobox = data.data.map((d) => ({
+          value: d.deparmentId,
+          name: d.deparmentName,
+        }));
+        console.log(this.listDepartmentCombobox);
         this.showLoading = false; // ẩn loading
       } catch (error) {
         this.showLoading = false; // ẩn loading khi có lỗi

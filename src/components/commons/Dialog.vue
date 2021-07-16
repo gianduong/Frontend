@@ -108,6 +108,7 @@
               :error="errorNotifyDepartment.status"
               :error-messages="errorNotifyDepartment.errorMessage"
             ></v-autocomplete>
+            
           </div>
           <div class="p-12">
             <InputField :label="'Chức danh'" v-model="employee.positionName" />

@@ -59,29 +59,33 @@
     <!--  -->
     <div class="modal-content-wrapper">
       <div class="model-content-top">
-        <div class="content-base ">
-          <div class="grow-1">Mã cửa hàng <span style="color:red"> *</span></div>
+        <div class="content-base">
+          <div class="grow-1">
+            Mã cửa hàng <span style="color: red"> *</span>
+          </div>
           <InputField
             tabindex="1"
-            style="flex-grow:7.4"
+            style="flex-grow: 7.4"
             v-model="employee.employeeCode"
             :errorNotify="errorNotifyCode"
             ref="toFocus"
           />
         </div>
-        <div class="content-base ">
-          <div class="grow-1">Tên cửa hàng <span style="color:red"> *</span></div>
+        <div class="content-base">
+          <div class="grow-1">
+            Tên cửa hàng <span style="color: red"> *</span>
+          </div>
           <InputField
             tabindex="2"
-            style="flex-grow:7.5"
+            style="flex-grow: 7.5"
             v-model="employee.fullName"
             :errorNotify="errorNotifyFullName"
           />
         </div>
-        <div class="content-base ">
-          <div class="grow-1">Địa chỉ <span style="color:red"> *</span></div>
-          <InputTextArea 
-            style="flex-grow:2.5"
+        <div class="content-base">
+          <div class="grow-1">Địa chỉ <span style="color: red"> *</span></div>
+          <InputTextArea
+            style="flex-grow: 2.5"
             tabindex="3"
             v-model="employee.address"
             :errorNotify="errorNotifyAddress"
@@ -93,7 +97,7 @@
           <div class="content-base grow-5">
             <div class="grow-2">Số điện thoại</div>
             <InputField
-              style="flex-grow:2.2"
+              style="flex-grow: 2.2"
               v-model="employee.employeeCode"
               :errorNotify="errorNotifyCode"
             />
@@ -102,7 +106,7 @@
             <div class="grow-2">Quốc gia</div>
             <v-autocomplete
               solo
-              style="flex-grow:1"
+              style="flex-grow: 1"
               v-model="employee.deparmentId"
               :items="listDepartment"
               item-text="deparmentName"
@@ -128,7 +132,7 @@
           </div>
           <div class="content-base grow-5">
             <div class="grow-2">Phường/Xã</div>
-            <v-autocomplete
+            <!-- <v-autocomplete
               solo
               style="flex-grow:1.2"
               v-model="employee.deparmentId"
@@ -138,14 +142,20 @@
               no-data-text="Không có dữ liệu"
               :error="errorNotifyDepartment.status"
               :error-messages="errorNotifyDepartment.errorMessage"
-            ></v-autocomplete>
+            ></v-autocomplete> -->
+            <Combobox
+              style="flex-grow: 5"
+              v-model="employee.deparmentId"
+              :value.sync="employee.deparmentName"
+              :suggestions="listDepartmentCombobox"
+            />
           </div>
         </div>
         <div class="content-bottom-right grow-5">
           <div class="content-base grow-5">
             <div class="grow-2">Mã số thuế</div>
             <InputField
-              style="flex-grow:2.5"
+              style="flex-grow: 2.5"
               v-model="employee.employeeCode"
               :errorNotify="errorNotifyCode"
             />
@@ -153,7 +163,7 @@
           <div class="content-base grow-5">
             <div class="grow-2">Quận/Huyện</div>
             <v-autocomplete
-            class="grow-2"
+              class="grow-2"
               solo
               v-model="employee.deparmentId"
               :items="listDepartment"
@@ -168,7 +178,7 @@
           <div class="content-base grow-5">
             <div class="grow-2">Đường phố</div>
             <InputField
-              style="flex-grow:2.5"
+              style="flex-grow: 2.5"
               v-model="employee.employeeCode"
               :errorNotify="errorNotifyCode"
             />
@@ -182,15 +192,19 @@
     <!--  -->
     <div class="modal-footer-container" tabindex="1">
       <div class="modal-footer" tabindex="2">
-        <div class="btn-cancel" tabindex="3" @click="$emit('handleCloseDialog')">
-          <Button :content="'Hủy'" :btnWhite="true"  />
+        <div
+          class="btn-cancel"
+          tabindex="3"
+          @click="$emit('handleCloseDialog')"
+        >
+          <Button :content="'Hủy'" :btnWhite="true" />
         </div>
         <div class="btn-group">
           <div class="par-12" @click="handleAddOrUpdate">
-            <Button :content="'Cất'" :btnWhite="true"/>
+            <Button :content="'Cất'" :btnWhite="true" />
           </div>
           <div @click="handleSaveAndAdd">
-            <Button :content="'Cất và Thêm'" tabindex="4"/>
+            <Button :content="'Cất và Thêm'" tabindex="4" />
           </div>
         </div>
       </div>
@@ -202,6 +216,7 @@
 //#region Import dữ liệu
 import Button from "../commons/Button.vue";
 import InputField from "../commons/InputField.vue";
+import Combobox from "../commons/Combobox.vue";
 import InputTextArea from "../commons/InputTextArea.vue";
 import CheckboxField from "../commons/CheckboxField.vue";
 import DefaultEmployee from "../constant/DefaultEmployee";
@@ -217,6 +232,7 @@ export default {
     "listDepartment",
     "employeeDetail",
     "modeUpdate",
+    "listDepartmentCombobox",
   ],
   //#endregion
 
@@ -226,6 +242,7 @@ export default {
     InputField,
     CheckboxField,
     DialogNotify,
+    Combobox,
     InputTextArea,
   },
   //#endregion
@@ -319,7 +336,7 @@ export default {
           status: false,
           errorMessage: "",
         };
-        this.errorNotifyAddress = {...resetData};
+        this.errorNotifyAddress = { ...resetData };
         this.errorNotifyCode = { ...resetData }; // reset hiển thị validate Code
         this.errorNotifyFullName = { ...resetData }; // reset hiển thị validate fullName
         this.errorNotifyDepartment = { ...resetData }; // reset hiển thị validate department
@@ -462,7 +479,7 @@ export default {
           this.handleAdd();
         } else this.handelUpdate();
         // đóng dialog nếu không có cảnh báo
-        debugger
+        debugger;
         if (this.closeDialogCheck) {
           this.$emit("handleCloseDialog"); // Ẩn dialog là resetdialog
         }
@@ -474,7 +491,6 @@ export default {
      * CreatedBy : NGDuong(13/06/2021)
      */
     validate() {
-      
       var isValid = true;
       if (this.employee.deparmentId.length == 0) {
         this.notifyMessage = "Đơn vị không được để trống";
@@ -519,7 +535,7 @@ export default {
     async handleAdd() {
       this.closeDialogCheck = false;
       this.employee.employeeId = uuidv4();
-      debugger
+      debugger;
       try {
         await axios({
           method: "post",
@@ -538,11 +554,11 @@ export default {
           this.errorNotifyCode = { ...resetData }; // reset hiển thị validate Code
           this.errorNotifyFullName = { ...resetData }; // reset hiển thị validate fullName
           this.errorNotifyDepartment = { ...resetData }; // reset hiển thị validate department
-          this.errorNotifyAddress = {...resetData};
+          this.errorNotifyAddress = { ...resetData };
 
           this.$emit("resetEmployeeDetail");
         }
-        
+
         this.$emit("handleReload"); // load laị dữ liệu
       } catch (error) {
         this.closeDialogCheck = false;
@@ -550,7 +566,6 @@ export default {
           if (error.response.data.data.detail.fieldNotValid == "EmployeeCode") {
             this.notifyMessage = error.response.data.userMsg;
             this.dialogNotifyDanger = true; // hiển thị dialog cảnh báo
-            
           }
         }
       }
@@ -579,7 +594,7 @@ export default {
           this.errorNotifyCode = { ...resetData }; // reset hiển thị validate Code
           this.errorNotifyFullName = { ...resetData }; // reset hiển thị validate fullName
           this.errorNotifyDepartment = { ...resetData }; // reset hiển thị validate department
-          this.errorNotifyAddress = {...resetData}; 
+          this.errorNotifyAddress = { ...resetData };
           this.$emit("resetEmployeeDetail");
         }
         this.$emit("handleReload"); // load laị dữ liệu
@@ -686,13 +701,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-@mixin witdhheight($w,$h){
+@mixin witdhheight($w, $h) {
   width: $w;
   height: $h;
 }
 
-@mixin flex{
+@mixin flex {
   display: flex;
   align-items: center;
 }
@@ -723,7 +737,6 @@ export default {
 .radio-container {
   @include flex;
   justify-content: center;
-
 }
 .modal-combobox {
   display: flex;
@@ -739,7 +752,7 @@ export default {
   padding: 0 19.5px;
 }
 .modal-icon {
-  @include witdhheight(24px,24px);
+  @include witdhheight(24px, 24px);
   cursor: pointer;
   background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat;
 }
@@ -753,7 +766,7 @@ export default {
 /* modal content */
 .modal-content-wrapper {
   padding: 0 32px 20px 32px;
-  @include witdhheight(100%,460px );
+  @include witdhheight(100%, 460px);
 
   span {
     text-align: center;
@@ -768,7 +781,7 @@ export default {
   align-items: stretch;
   margin: 5px 5px 10px 5px;
 }
-$sizes: 1,2,3,4,5,6,7,8,9,10;
+$sizes: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
 @each $size in $sizes {
   .grow-#{$size} {
     flex-grow: $size;
@@ -777,12 +790,12 @@ $sizes: 1,2,3,4,5,6,7,8,9,10;
 
 /**---------content top */
 .model-content-top {
-  @include witdhheight(100%,50% );
+  @include witdhheight(100%, 50%);
 }
 
 /**---------content bottom */
 .model-content-bottom {
-  @include witdhheight(100%,50% );
+  @include witdhheight(100%, 50%);
 }
 /* input */
 .group-input {
@@ -827,7 +840,7 @@ $sizes: 1,2,3,4,5,6,7,8,9,10;
 }
 .combobox-icon {
   position: relative;
-  @include witdhheight(18px,18px );
+  @include witdhheight(18px, 18px);
   border: 1px solid #b0b0b0;
   border-radius: 50%;
   cursor: pointer;
@@ -836,13 +849,13 @@ $sizes: 1,2,3,4,5,6,7,8,9,10;
   border-color: #2ca01c;
 }
 .combobox-icon.active::before {
-  @include witdhheight(10px,10px );
+  @include witdhheight(10px, 10px);
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  
+
   border-radius: 50%;
   background: #2ca01c;
 }
@@ -876,7 +889,7 @@ $sizes: 1,2,3,4,5,6,7,8,9,10;
 }
 .modal-footer {
   @include flex;
-  @include witdhheight(100%, 100%); 
+  @include witdhheight(100%, 100%);
   justify-content: space-between;
   border-top: 1px solid #babec5;
 }

@@ -137,6 +137,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 
+/** biến dùng chung */
 $navbar-width: 178px;
 $navbar-width-toggle: 52px;
 

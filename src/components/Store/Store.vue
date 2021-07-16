@@ -281,6 +281,7 @@ export default {
       notifyMessage: "", // Nội dùng dialog
       dialogNotifyError: false, // hiển thị dialog thông báo lỗi
       dialogNotifyDanger: false, // hiển thị dialog cảnh báo
+      closeDialogCheck: true, // đóng cửa số nếu không có cảnh báo và ngược lại
       dialogNotifyConfirm: false, // hiển thị dialog thông báo
       saveAndAddMode: false, // chế độ cất và thêm
       errorNotifyCode: {
@@ -460,7 +461,11 @@ export default {
         if (!this.modeUpdate) {
           this.handleAdd();
         } else this.handelUpdate();
-        this.$emit("handleCloseDialog"); // Ẩn dialog là resetdialog
+        // đóng dialog nếu không có cảnh báo
+        debugger
+        if (this.closeDialogCheck) {
+          this.$emit("handleCloseDialog"); // Ẩn dialog là resetdialog
+        }
       }
     },
 
@@ -469,7 +474,7 @@ export default {
      * CreatedBy : NGDuong(13/06/2021)
      */
     validate() {
-      debugger
+      
       var isValid = true;
       if (this.employee.deparmentId.length == 0) {
         this.notifyMessage = "Đơn vị không được để trống";
@@ -479,7 +484,6 @@ export default {
         isValid = false;
         return isValid;
       }
-      debugger;
       if (this.employee.address.length == 0) {
         this.notifyMessage = "Địa chỉ không được để trống";
         this.errorNotifyAddress.status = true;
@@ -513,7 +517,9 @@ export default {
      * CreatedBy : NGDuong(12/06/2021)
      */
     async handleAdd() {
+      this.closeDialogCheck = false;
       this.employee.employeeId = uuidv4();
+      debugger
       try {
         await axios({
           method: "post",
@@ -536,12 +542,15 @@ export default {
 
           this.$emit("resetEmployeeDetail");
         }
+        
         this.$emit("handleReload"); // load laị dữ liệu
       } catch (error) {
+        this.closeDialogCheck = false;
         if (error.response.status == "400") {
           if (error.response.data.data.detail.fieldNotValid == "EmployeeCode") {
             this.notifyMessage = error.response.data.userMsg;
             this.dialogNotifyDanger = true; // hiển thị dialog cảnh báo
+            
           }
         }
       }
@@ -579,6 +588,7 @@ export default {
           if (error.response.data.data.detail.fieldNotValid == "EmployeeCode") {
             this.notifyMessage = error.response.data.userMsg;
             this.dialogNotifyDanger = true; // hiển thị dialog cảnh báo
+            this.closeDialogCheck = false;
           }
         }
       }

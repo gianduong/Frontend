@@ -142,7 +142,7 @@ textarea {
   font-style: italic;
   text-transform: uppercase;
   color: #000;
-  resize:vertical;
+  resize: none;
 }
 
 </style>

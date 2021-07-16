@@ -423,7 +423,7 @@ export default {
      * Get dữ liệu đã chọn từ auto complete
      * CreatedBy: NGDuong (15/07/2021)
      */
-    getDepartmentId(data){
+    getDepartmentId(data) {
       this.employee.deparmentId = data;
     },
     /**
@@ -469,7 +469,10 @@ export default {
         if (!this.modeUpdate) {
           this.handleAdd();
         } else this.handelUpdate();
-        this.$emit("handleCloseDialog"); // Ẩn dialog là resetdialog
+        // đóng dialog nếu không có lỗi
+        if (!this.dialogNotifyDanger) {
+          this.$emit("handleCloseDialog"); // Ẩn dialog là resetdialog
+        }
       }
     },
 
@@ -659,7 +662,7 @@ export default {
         this.showLoading = false; // ẩn loading
         return data.data;
       } catch (error) {
-        console.log(error);
+        
       }
     },
     //#endregion

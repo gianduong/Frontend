@@ -33,6 +33,17 @@
   width: 178px !important;
   background-color: #393a3d !important;
 }
+
+/*-----------resize navbar----------------*/
+
+.resize-navigation{
+  width: 55px !important;
+}
+
+.notShow {
+  display: none;
+}
+
 /* Header css */
 .v-toolbar__content {
   height: 48px !important;

@@ -1,12 +1,12 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app permanent expand-on-hover>
+    <v-navigation-drawer :class="{'resize-navigation' : drawer}" app>
       <!--Nav bar  -->
-      <NavBar />
+      <NavBar :isShow="isShow" @resize="resizeShow"/>
     </v-navigation-drawer>
 
     <v-app-bar app>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = !drawer, isShow = !isShow"></v-app-bar-nav-icon>
       <!-- Header -->
       <Header />
     </v-app-bar>
@@ -24,7 +24,20 @@ import Header from "./components/layout/Header.vue";
 import Content from "./components/layout/Content.vue";
 import "./css/main.css";
 export default {
-  components: { NavBar, Header, Content },
-  data: () => ({ drawer: null }),
+  components: {
+    NavBar,
+    Header,
+    Content,
+  },
+  data: () => ({
+    drawer: null,
+    isShow: true,
+  }),
+  methods:{
+    resizeShow(){
+      this.isShow = !this.isShow;
+      this.drawer = !this.drawer;
+    }
+  }
 };
 </script>

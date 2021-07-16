@@ -115,6 +115,7 @@ tr:hover td {
   z-index: 101;
   border-left: none !important;
 }
+
 .th-sticky th {
   height: 34px;
   width: 120px;

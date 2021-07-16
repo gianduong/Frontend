@@ -84,7 +84,7 @@
             style="height:91px; flex-grow:4.5"
             tabindex="3"
             v-model="employee.address"
-            :errorNotify="errorNotifyCode"
+            :errorNotify="errorNotifyAddress"
           />
         </div>
       </div>
@@ -467,6 +467,7 @@ export default {
      * CreatedBy : NGDuong(13/06/2021)
      */
     validate() {
+      debugger
       var isValid = true;
       if (this.employee.deparmentId.length == 0) {
         this.notifyMessage = "Đơn vị không được để trống";
@@ -474,13 +475,16 @@ export default {
         this.errorNotifyDepartment.errorMessage = "Đơn vị không được để trống";
         this.dialogNotifyError = true;
         isValid = false;
+        return isValid;
       }
+      debugger;
       if (this.employee.address.length == 0) {
         this.notifyMessage = "Địa chỉ không được để trống";
         this.errorNotifyAddress.status = true;
-        this.errorNotifyCode.errorMessage = "Địa chỉ không được để trống";
-        this.errorNotifyAddress = true; // hiển thị dialog báo lỗi
+        this.errorNotifyAddress.errorMessage = "Địa chỉ không được để trống";
+        this.dialogNotifyError = true; // hiển thị dialog báo lỗi
         isValid = false;
+        return isValid;
       }
       if (this.employee.fullName.length == 0) {
         this.notifyMessage = "Tên không được để trống";
@@ -488,6 +492,7 @@ export default {
         this.errorNotifyFullName.errorMessage = "Tên không được để trống";
         this.dialogNotifyError = true; // hiển thị dialog báo lỗi
         isValid = false;
+        return isValid;
       }
       if (this.employee.employeeCode.length == 0) {
         this.notifyMessage = "Mã nhân viên không được để trống";
@@ -495,6 +500,7 @@ export default {
         this.errorNotifyCode.errorMessage = "Mã không được để trống";
         this.dialogNotifyError = true; // hiển thị dialog báo lỗi
         isValid = false;
+        return isValid;
       }
 
       return isValid;
@@ -524,6 +530,8 @@ export default {
           this.errorNotifyCode = { ...resetData }; // reset hiển thị validate Code
           this.errorNotifyFullName = { ...resetData }; // reset hiển thị validate fullName
           this.errorNotifyDepartment = { ...resetData }; // reset hiển thị validate department
+          this.errorNotifyAddress = {...resetData};
+
           this.$emit("resetEmployeeDetail");
         }
         this.$emit("handleReload"); // load laị dữ liệu
@@ -560,6 +568,7 @@ export default {
           this.errorNotifyCode = { ...resetData }; // reset hiển thị validate Code
           this.errorNotifyFullName = { ...resetData }; // reset hiển thị validate fullName
           this.errorNotifyDepartment = { ...resetData }; // reset hiển thị validate department
+          this.errorNotifyAddress = {...resetData}; 
           this.$emit("resetEmployeeDetail");
         }
         this.$emit("handleReload"); // load laị dữ liệu

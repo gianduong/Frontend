@@ -183,8 +183,13 @@
             v-model="pageSize"
             @changeValue="handleChangeValue"
           /> -->
-          <div style="witdh: 200px; height: 32px;">
-            <Combobox :value.sync="handleChangeValue" :suggestions="options" @ChangeValue="handleChangeValue"/>
+          <div style="witdh: 200px; height: 32px">
+            <Combobox
+              v-model="pageSize"
+              :value.sync="pageSize"
+              :suggestions="options"
+              @ChangeValue="handleChangeValue"
+            />
           </div>
         </div>
         <div class="paginations">
@@ -678,5 +683,9 @@ export default {
 .pag-btn.active {
   color: #111;
   cursor: pointer;
+}
+
+.resize {
+  width: calc();
 }
 </style>

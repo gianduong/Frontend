@@ -63,6 +63,7 @@ export default {
   methods: {
     /**
      * Đảo ngược trạng thái popup
+     * Createdby: NGDuong (20/07/2021) 
      */
     toggleSuggestion() {
       if (this.isShow) {
@@ -209,7 +210,7 @@ $color-white: #fff;
   }
 
   &:focus {
-    border-color: #2ca01c;
+    border-color: #2CA01C;
   }
 
   &:hover:not(:focus) {
@@ -238,7 +239,7 @@ $color-white: #fff;
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: #38393d;
+    background-color: #EBEDF0;
     color: $color-white;
     padding: 8px;
     z-index: 10;
@@ -304,8 +305,8 @@ $color-white: #fff;
       cursor: pointer;
 
       &:hover:not(.active) {
-        background-color: #b9c6ce;
-        color: #0c3d06;
+        background-color: #EBEDF0;
+        color: #4FAE43;
       }
     }
   }
@@ -332,7 +333,7 @@ $color-white: #fff;
   }
 
   .active {
-    background-color: rgb(51, 100, 65);
+    background-color: #2CA01C;
     color: $color-white;
   }
 }

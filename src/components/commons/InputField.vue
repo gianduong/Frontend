@@ -39,10 +39,10 @@ export default {
   ],
   data() {
     return {
-      inputValue: "",
-      validate: false,
-      errorMessage: "",
-      showMessage: false,
+      inputValue: "", // giá trị ô input trả về dialog cha
+      validate: false, // lỗi validate
+      errorMessage: "", // thông điệp lỗi
+      showMessage: false, // hiển thị ?
     };
   },
 
@@ -166,4 +166,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   height: 16px;
   border-width: thin;
 }
+
+input[type="date"]:hover{
+  cursor: pointer;
+}
+
+input {
+  box-shadow: 1px 1px 1px #e6dada;
+}
+
 </style>

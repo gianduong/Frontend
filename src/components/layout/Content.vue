@@ -13,7 +13,7 @@
           </template>
 
           <v-card height="600px">
-            <Dialog           
+            <AddAndUpdate           
               :employeeDetail="employeeDetail"
               @handleCloseDialog="closeDialog"
               @handleShowDialog="showDialog"
@@ -221,12 +221,12 @@
 import CheckboxField from "../commons/CheckboxField.vue";
 import Button from "../commons/Button.vue";
 import Combobox from "../commons/Combobox.vue";
-import Store from "../Store/Store.vue";
 import InputField from "../commons/InputField.vue";
 import Dialog from "../commons/Dialog.vue";
 import axios from "axios";
 import "../../css/table.css";
 import Employee from "../Employee/Employee.vue";
+import AddAndUpdate from "../Employee/AddAndUpdate.vue";
 import queryString from "query-string";
 import CustomSelect from "../commons/CustomSelect.vue";
 import DialogNotify from "../commons/DialogNotify.vue";
@@ -242,8 +242,8 @@ export default {
     Employee,
     CustomSelect,
     DialogNotify,
-    Store,
     Combobox,
+    AddAndUpdate,
   },
   //#endregion
 
@@ -658,7 +658,7 @@ $color-active: #111;
   }
   .paginations {
     @include flex;
-    min-width: 350px;
+    min-width: 300px;
   }
   .dropdown-pagiantion {
     position: relative;

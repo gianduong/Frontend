@@ -1,29 +1,7 @@
 <template>
   <div class="modal-container">
-    <!-- Dialog error -->
-    <!--  -->
-    <v-dialog v-model="dialogNotifyError" width="444px">
-      <DialogNotify
-        @closeDialog="handleCloseErrorDialog"
-        type="notify-error"
-        :notifyMessage="notifyMessage"
-      />
-    </v-dialog>
-    <!--  -->
-    <!-- End of dialog error -->
-    <!-- Dialog danger -->
-    <!--  -->
-    <v-dialog v-model="dialogNotifyDanger" width="444px">
-      <DialogNotify
-        @closeDialog="handleCloseDangerDialog"
-        type="notify-danger"
-        :notifyMessage="notifyMessage"
-      />
-    </v-dialog>
-    <!--  -->
-    <!-- End of dialog danger -->
-    <!-- Dialog danger -->
-    <!--  -->
+    <!-- thông báo -->
+    <!-- thông báo thêm -->
     <v-dialog :persistent="true" v-model="dialogNotifyConfirm" width="444px">
       <DialogNotify
         @closeDialog="handleCloseConfirmDialog"
@@ -33,193 +11,251 @@
         @onAddOrUpdate="handleAddOrUpdate"
       />
     </v-dialog>
-    <!--  -->
-    <!-- End of dialog danger -->
-    <div class="modal-header-container">
-      <div class="modal-header">
-        <h3 class="modal-title">Thông tin nhân viên</h3>
-        <div class="modal-combobox">
-          <div class="combobox-customer">
-            <CheckboxField :content="'Là khách hàng'" />
-          </div>
-          <div class="combobox-provider">
-            <CheckboxField :content="'Là nhà cung cấp'" />
-          </div>
-        </div>
-      </div>
-      <div class="modal-close">
-        <v-tooltip bottom style="z-index: 100000">
-          <template v-slot:activator="{ on, attrs }">
-            <div class="modal-icon help-icon" v-bind="attrs" v-on="on"></div>
-          </template>
-          <span>Hỏi đáp</span>
-        </v-tooltip>
-        <v-tooltip bottom style="z-index: 100000">
-          <template v-slot:activator="{ on, attrs }">
-            <div
-              class="modal-icon close-icon"
-              @click="onClose"
-              v-bind="attrs"
-              v-on="on"
-            ></div>
-          </template>
-          <span>Thoát</span>
-        </v-tooltip>
-      </div>
-    </div>
-    <!--  -->
-    <!-- end modal header -->
-    <!-- modal content -->
-    <!--  -->
-    <div class="modal-content-wrapper">
-      <div class="modal-content">
-        <!-- modal content left -->
-        <!--  -->
-        <div class="modal-content-left">
-          <div class="p-12 group-input">
-            <div class="input-code pr-6">
-              <InputField
-                :label="'Mã'"
-                :required="true"
-                v-model="employee.employeeCode"
-                :errorNotify="errorNotifyCode"
-                ref="toFocus"
-              />
-            </div>
-            <div class="input-name">
-              <InputField
-                :label="'Tên'"
-                :required="true"
-                v-model="employee.fullName"
-                :errorNotify="errorNotifyFullName"
-              />
-            </div>
-          </div>
-          <div class="p-12">
-            <label>Đơn vị</label>
-            <v-autocomplete
-              solo
-              label="Chọn Đơn vị"
-              v-model="employee.deparmentId"
-              :items="listDepartment"
-              item-text="deparmentName"
-              item-value="deparmentId"
-              no-data-text="Không có dữ liệu"
-              :error="errorNotifyDepartment.status"
-              :error-messages="errorNotifyDepartment.errorMessage"
-            ></v-autocomplete>
-          </div>
-          <div class="p-12">
-            <InputField :label="'Chức danh'" v-model="employee.positionName" />
-          </div>
-        </div>
-        <!--  -->
-        <!-- end modal content left -->
-        <!-- modal content right -->
-        <!--  -->
-        <div class="modal-content-right">
-          <div class="p-12 group-input">
-            <div class="input-date pr-6">
-              <InputField
-                :label="'Ngày sinh'"
-                type="date"
-                v-model="employee.dateOfBirth"
-              />
-            </div>
-            <!-- gender -->
-            <!--  -->
-            <v-radio-group v-model="employee.gender">
-              <label class="gender-label">Giới tính</label>
-              <div class="radio-container">
-                <v-radio :label="'Nam'" :value="1" color="#2ca01c"></v-radio>
-                <v-radio :label="'Nữ'" :value="0" color="#2ca01c"></v-radio>
-                <v-radio :label="'Khác'" :value="2" color="#2ca01c"></v-radio>
-              </div>
-            </v-radio-group>
-            <!--  -->
-            <!-- end gender -->
-          </div>
-          <div class="p-12 group-input">
-            <div class="input-editer pr-6">
-              <InputField
-                :label="'Số CMND'"
-                v-model="employee.identityNumber"
-              />
-            </div>
-            <div class="input-date-rage">
-              <InputField
-                :label="'Ngày cấp'"
-                type="date"
-                v-model="employee.identityDate"
-              />
-            </div>
-          </div>
-          <div class="pr-6">
-            <InputField
-              :label="'Nơi cấp'"
-              style="margin-right: -5px"
-              v-model="employee.identityPlace"
-            />
-          </div>
-        </div>
-        <!--  -->
-        <!-- end modal content right -->
-      </div>
-      <!-- modal content bottom-->
-      <!--  -->
-      <div class="modal-content-bottom pt-24">
-        <div class="p-12">
-          <InputField
-            :label="'Địa chỉ'"
-            style="margin-right: 10px"
-            v-model="employee.address"
+    <!-- Cảnh báo nhập sai -->
+    <v-dialog v-model="dialogNotifyError" width="444px">
+      <DialogNotify
+        @closeDialog="handleCloseErrorDialog"
+        type="notify-error"
+        :notifyMessage="notifyMessage"
+      />
+    </v-dialog>
+    <!-- cảnh báo xóa hoặc không lưu -->
+    <v-dialog v-model="dialogNotifyDanger" width="444px">
+      <DialogNotify
+        @closeDialog="handleCloseDangerDialog"
+        type="notify-danger"
+        :notifyMessage="notifyMessage"
+      />
+    </v-dialog>
+
+    <!-- bảng thêm mới, cập nhật nhân viên -->
+    <div class="main-container">
+      <!-- thoát -->
+      <div class="container-title">
+        <h1>Thông tin nhân viên</h1>
+        <div class="checkbox">
+          <CheckboxField
+            :content="'Là khách hàng'"
+            style="margin-right: 20px"
           />
+          <CheckboxField :content="'Là nhà cung cấp'" />
         </div>
-        <div class="p-12 group-input">
-          <div class="pr-6">
-            <InputField :label="'ĐT di động'" v-model="employee.phoneNumber" />
+        <div class="modal-close">
+          <v-tooltip bottom style="z-index: 100000">
+            <template v-slot:activator="{ on, attrs }">
+              <div class="modal-icon help-icon" v-bind="attrs" v-on="on"></div>
+            </template>
+            <span>Hỏi đáp</span>
+          </v-tooltip>
+          <v-tooltip bottom style="z-index: 100000">
+            <template v-slot:activator="{ on, attrs }">
+              <div
+                class="modal-icon close-icon"
+                @click="onClose"
+                v-bind="attrs"
+                v-on="on"
+              ></div>
+            </template>
+            <span>Thoát</span>
+          </v-tooltip>
+        </div>
+      </div>
+      <!-- nhân viên -->
+      <div class="container-attribute">
+        <div class="attribute-top">
+          <div class="att-left">
+            <div class="left-1">
+              <div class="attr-ma">
+                <div class="resize resize-left">
+                  <InputField
+                    :label="'Mã'"
+                    :required="true"
+                    v-model="employee.employeeCode"
+                    :errorNotify="errorNotifyCode"
+                    ref="toFocus"
+                  />
+                </div>
+              </div>
+              <div class="attr-ten" style="width: 262px">
+                <div class="resize resize-right">
+                  <InputField
+                    :label="'Tên'"
+                    :required="true"
+                    v-model="employee.fullName"
+                    :errorNotify="errorNotifyFullName"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="left-2">
+              <div class="resize resize-left">
+                <label>Đơn vị</label>
+                <v-autocomplete
+                  solo
+                  v-model="employee.deparmentId"
+                  :items="listDepartment"
+                  item-text="deparmentName"
+                  item-value="deparmentId"
+                  no-data-text="Không có dữ liệu"
+                  :error="errorNotifyDepartment.status"
+                  :error-messages="errorNotifyDepartment.errorMessage"
+                ></v-autocomplete>
+              </div>
+            </div>
+            <div class="left-3">
+              <div class="resize resize-left">
+                <InputField
+                  :label="'Chức danh'"
+                  v-model="employee.positionName"
+                />
+              </div>
+            </div>
           </div>
-          <div class="pr-6">
-            <InputField
-              :label="'ĐT cố định'"
-              v-model="employee.landlinePhone"
-            />
-          </div>
-          <div class="pr-6">
-            <InputField :label="'Email'" v-model="employee.email" />
+          <div class="att-right">
+            <div class="right-1">
+              <div class="attr-dob">
+                <div class="resize">
+                  <InputField
+                    :label="'Ngày sinh'"
+                    type="date"
+                    v-model="employee.dateOfBirth"
+                  />
+                </div>
+              </div>
+              <div class="attr-gender">
+                <div class="resize">
+                  <v-radio-group v-model="employee.gender">
+                    <label class="gender-label">Giới tính</label>
+                    <div class="radio-container">
+                      <v-radio
+                        :label="'Nam'"
+                        :value="1"
+                        color="#2ca01c"
+                      ></v-radio>
+                      <v-radio
+                        :label="'Nữ'"
+                        :value="0"
+                        color="#2ca01c"
+                      ></v-radio>
+                      <v-radio
+                        :label="'Khác'"
+                        :value="2"
+                        color="#2ca01c"
+                      ></v-radio>
+                    </div>
+                  </v-radio-group>
+                </div>
+              </div>
+            </div>
+            <div class="right-2">
+              <div class="attr-CMT">
+                <div class="resize">
+                  <InputField
+                    :label="'Số CMND'"
+                    v-model="employee.identityNumber"
+                  />
+                </div>
+              </div>
+              <div class="attr-cap">
+                <div class="resize">
+                  <InputField
+                    :label="'Ngày cấp'"
+                    type="date"
+                    v-model="employee.identityDate"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="right-3">
+              <div class="resize">
+                <InputField
+                  :label="'Nơi cấp'"
+                  style="margin-right: -5px"
+                  v-model="employee.identityPlace"
+                />
+              </div>
+            </div>
           </div>
         </div>
-        <div class="p-12 group-input">
-          <div class="pr-6">
-            <InputField
-              :label="'Tài khoản ngân hàng'"
-              v-model="employee.bankAccount"
-            />
+        <div class="attribute-bottom">
+          <div class="bottom-1">
+            <div class="resize">
+              <InputField
+                style="margin-right: -20px;"
+                :label="'Địa chỉ'"
+                v-model="employee.address"
+              />
+            </div>
           </div>
-          <div class="pr-6">
-            <InputField :label="'Tên ngân hàng'" v-model="employee.bankName" />
+          <div class="bottom-2">
+            <div class="bottom-phone">
+              <div class="resize" style="height:33px">
+                <InputField
+                  style="margin-top:-30px"
+                  :label="'ĐT di động'"
+                  v-model="employee.phoneNumber"
+                />
+              </div>
+            </div>
+            <div class="attr-homePhone">
+              <div class="resize">
+                <InputField
+                  :label="'ĐT cố định'"
+                  v-model="employee.landlinePhone"
+                />
+              </div>
+            </div>
+            <div class="attr-email">
+              <div class="resize">
+                <InputField :label="'Email'" v-model="employee.email" />
+              </div>
+            </div>
           </div>
-          <div class="pr-6">
-            <InputField :label="'Chi nhánh'" v-model="employee.bankBranch" />
+          <div class="bottom-3">
+            <div class="attr-account">
+              <div class="resize">
+                <InputField
+                  :label="'Tài khoản ngân hàng'"
+                  v-model="employee.bankAccount"
+                />
+              </div>
+            </div>
+            <div class="attr-bank">
+              <div class="resize">
+                <InputField
+                  :label="'Tên ngân hàng'"
+                  v-model="employee.bankName"
+                />
+              </div>
+            </div>
+            <div class="attr-location">
+              <div class="resize">
+                <InputField
+                  :label="'Chi nhánh'"
+                  v-model="employee.bankBranch"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!--  -->
-    <!-- end modal content -->
-    <!-- modal footer -->
-    <!--  -->
-    <div class="modal-footer-container">
-      <div class="modal-footer">
-        <div class="btn-cancel" @click="$emit('handleCloseDialog')">
-          <Button :content="'Hủy'" :btnWhite="true" />
-        </div>
-        <div class="btn-group">
-          <div class="par-12" @click="handleAddOrUpdate">
-            <Button :content="'Cất'" :btnWhite="true" />
+      <!-- button -->
+      <div class="container-bottom">
+        <div class="btn-close" >
+          <div class="resize" @click="$emit('handleCloseDialog')">
+            <Button :content="'Hủy'" :btnWhite="true" tabindex="0" />
           </div>
-          <div @click="handleSaveAndAdd">
-            <Button :content="'Cất và Thêm'" />
+        </div>
+        <div class="btn-save" >
+          <div class="btn-cat">
+            <div class="resize" @click="handleAddOrUpdate">
+              <Button :content="'Cất'" :btnWhite="true" tabindex="0" />
+            </div>
+          </div>
+          <div class="btn-saveAndAdd">
+            <div class="resize" @click="handleSaveAndAdd">
+              <Button :content="'Cất và Thêm'" tabindex="0"/>
+            </div>
           </div>
         </div>
       </div>
@@ -412,7 +448,23 @@ export default {
   //#region Methods
   methods: {
     //#region Các hàm xử lý logic
+    /**
+     * Cập nhật khi ấn enter ở button
+     * CreatedBy: NGDuong (20/07/2021)
+     */
+    enter(value){
+      if(value === "Hủy"){
 
+      }else if(value === "Cất"){
+        this.handleAddOrUpdate();
+      }
+      else if(value === "Cất và Thêm"){
+        this.handleSaveAndAdd();
+      }
+      else {
+
+      }
+    },
     /**
      * Thay đổi chế độ cất và thêm
      * CreatedBy : NGDuong(12/06/2021)
@@ -655,7 +707,7 @@ export default {
     },
     //#endregion
 
-    //#region Các hàm gọi APIf
+    //#region Các hàm gọi API
 
     /**
      * Lấy mã nhân viên mới
@@ -696,122 +748,195 @@ $color-title: #111;
   position: relative;
   background: #fff;
   height: 100%;
-  overflow-y: auto;
+  overflow: hidden;
   box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%),
     0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
 
-  // header
-  .modal-header-container {
-    @include flex;
-    justify-content: space-between;
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    @include widthHeight(100%, 100%);
 
-    .modal-header {
+    .container-title {
+      @include widthHeight(100%, 10%);
       @include flex;
-      padding: 20px 12px 20px 32px;
-
-      .modal-title {
-        font-size: 24px;
-        color: #111;
-        font-weight: 700;
+      h1 {
+        margin-left: 30px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
       }
-      .modal-combobox {
-        display: flex;
+      .checkbox {
+        margin: 0 15px 0 15px;
+        @include flex;
+        min-width: 63%;
+      }
+      .modal-close {
+        padding-left: 12px;
+        @include flex;
 
-        .combobox-customer,
-        .combobox-provider {
-          padding: 0 19.5px;
+        .modal-icon {
+          @include widthHeight(24px, 24px);
+          cursor: pointer;
+          background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat;
+        }
+        .help-icon {
+          background-position: -89px -144px;
+          margin-right: 10px;
+        }
+        .close-icon {
+          background-position: -144px -144px;
         }
       }
     }
-    .modal-close {
-      padding: 0 12px 12px 12px;
-      @include flex;
-
-      .modal-icon {
-        @include widthHeight(24px, 24px);
-        cursor: pointer;
-        background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat;
-      }
-      .help-icon {
-        background-position: -89px -144px;
-        margin-right: 10px;
-      }
-      .close-icon {
-        background-position: -144px -144px;
-      }
-    }
-  }
-
-  /* modal content */
-  .modal-content-wrapper {
-    padding: 0 32px 20px 32px;
-
-    .modal-content {
+    .container-attribute {
+      @include widthHeight(100%, 75%);
       display: flex;
+      flex-direction: column;
+
+      .attribute-top {
+        @include flex;
+        @include widthHeight(100%, 50%);
+
+        .att-left {
+          display: flex;
+          flex-direction: column;
+          @include widthHeight(50%, 100%);
+
+          .left-1 {
+            @include widthHeight(100%, 33.33%);
+            @include flex;
+            .attr-ma {
+              @include widthHeight(40%, 100%);
+            }
+            .attr-ten {
+              @include widthHeight(60%, 100%);
+            }
+          }
+          .left-2 {
+            @include widthHeight(100%, 33.33%);
+          }
+          .left-3 {
+            @include widthHeight(100%, 33.33%);
+          }
+        }
+        .att-right {
+          display: flex;
+          flex-direction: column;
+          @include widthHeight(50%, 100%);
+
+          .right-1 {
+            @include flex;
+            @include widthHeight(100%, 33.33%);
+  
+            .attr-dob {
+              @include widthHeight(40%, 100%);
+            }
+            .attr-gender {
+              @include widthHeight(60%, 100%);
+              margin-top: 20px;
+            }
+          }
+          .right-2 {
+            @include flex;
+            @include widthHeight(100%, 33.33%);
+
+            .attr-CMT {
+              @include widthHeight(55%, 100%);
+            }
+            .attr-cap {
+              @include widthHeight(40%, 100%);
+            }
+          }
+          .right-3 {
+            @include widthHeight(100%, 33.33%);
+          }
+        }
+      }
+      .attribute-bottom {
+        display: flex;
+        flex-direction: column;
+        @include widthHeight(90%, 50%);
+        .bottom-1 {
+          @include widthHeight(112%, 33.33%);
+          min-width: 80%;
+          margin-left: 25px;
+        }
+        .bottom-2 {
+          @include widthHeight(100%, 33.33%);
+          @include flex;
+          margin-left: 25px;
+          .attr-phone {
+            @include widthHeight(25%, 100%);
+          }
+          .attr-homePhone {
+            @include widthHeight(25%, 100%);
+          }
+          .attr-email {
+            @include widthHeight(25%, 100%);
+          }
+        }
+        .bottom-3 {
+          @include widthHeight(100%, 33.33%);
+          @include flex;
+          margin-left: 25px;
+          .attr-account {
+            @include widthHeight(25%, 100%);
+          }
+          .attr-bank {
+            @include widthHeight(25%, 100%);
+          }
+          .attr-location {
+            @include widthHeight(25%, 100%);
+          }
+        }
+      }
     }
-  }
-  /* modal footer */
-  .modal-footer-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 77px;
-    padding: 0 32px;
-    display: flex;
-    align-items: center;
-    background: #fff;
+    .container-bottom {
+      @include widthHeight(100%, 15%);
+      display: flex;
+      justify-content: space-between;
+
+      .btn-close{
+        @include widthHeight(10%, 100%);
+        margin-left: 25px;
+        margin-top: 10px;
+      }
+
+      .btn-save{
+        @include widthHeight(25%, 100%);
+        @include flex;
+        margin-left: 25px;
+        margin-top: 10px;
+        .btn-cat{
+          @include widthHeight(30%, 100%);
+        }
+
+        .btn-saveAndAdd{
+          @include widthHeight(70%, 100%);
+        }
+      }
+    }
   }
 }
 
+.resize {
+  @include widthHeight(90%, 45%);
+  margin: 10px 0 0 5px;
+}
+
+.resize-left {
+  margin-left: 30px;
+}
+
+.resize-right {
+  margin: 10px 20px 0 20px;
+}
+
+// ---------radio----------
 .radio-container {
   @include flex;
   justify-content: center;
-}
-
-/* input */
-.group-input {
-  @include flex;
-}
-.input-code,
-.input-date-rage {
-  width: 40%;
-}
-.input-name,
-.input-editer {
-  width: 60%;
-}
-.pr-6 {
-  padding-right: 6px !important;
-}
-.v-application .pr-6 {
-  padding-right: 6px !important;
-}
-.par-12 {
-  padding-right: 12px !important;
-}
-.p-12 {
-  padding-bottom: 12px !important;
-}
-.pt-24 {
-  padding-top: 24px !important;
-}
-.pb-24 {
-  padding-bottom: 24px !important;
-}
-.modal-content-left {
-  padding-right: 26px;
-  width: calc(50% + 26px);
-}
-
-.modal-footer {
-  @include flex;
-  @include widthHeight(100%, 100%);
-  justify-content: space-between;
-  border-top: 1px solid #babec5;
-}
-.btn-group {
-  display: flex;
 }
 
 .gender-label {

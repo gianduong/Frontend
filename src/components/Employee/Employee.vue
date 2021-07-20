@@ -119,11 +119,11 @@ export default {
      */
     fomatGender(value) {
       if (value == 0) {
-        return "Khác";
+        return "Nữ";
       } else if (value == 1) {
         return "Nam";
       } else {
-        return "Nữ";
+        return "Khác";
       }
     },
   },
@@ -136,7 +136,7 @@ export default {
      * CreateBy : NGDuong(11/06/2021)
      */
     formatDeparmentName() {
-      debugger
+      // debugger
       for (let i = 0; i < this.listDeparment.length; i++) {
         if (this.listDeparment[i].deparmentId === this.employee.deparmentId)
           return this.listDeparment[i].deparmentName;

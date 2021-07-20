@@ -29,6 +29,7 @@
 
 <script>
 export default {
+  // #region props
   props: [
     "placeholder",
     "searchField",
@@ -38,6 +39,9 @@ export default {
     "required",
     "errorNotify",
   ],
+  // end region
+
+  // #region data
   data() {
     return {
       textValue: "",
@@ -46,7 +50,9 @@ export default {
       showMessage: false,
     };
   },
+  // end region
 
+  // #region methods
   methods: {
     /**
      * Truyền dữ liệu nhận được ra ngoài dialog
@@ -83,66 +89,68 @@ export default {
       this.$refs.autoFocus.focus();
     },
   },
+  // end region
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .field-text-container {
   height: 100%;
-}
 
-.text-field {
-  position: relative;
-  height: 100%;
-  
-}
-.text-field textarea {
-  padding: 6px 11px;
-  border-radius: 2px;
-  border: 1px solid #babec5;
-  outline: none;
-  width: 100%;
-  height: 100%;
-  /* max-height: 32px; */
-}
-.text-field textarea:focus {
-  border-color: #2ca01c;
-}
-::placeholder {
-  font-style: italic;
-}
+  label {
+    .required {
+      color: red;
+    }
+  }
 
-.validateMessage {
-  position: absolute;
-  background: #443e3e;
-  left: 50%;
-  top: 50%;
-  width: 150px;
-  color: #fff;
-  transform: translateX(-50%);
-  user-select: none;
-  padding: 3px 3px;
-  display: none;
-}
-.validateMessage p {
-  font-size: 12px;
-  margin-bottom: 0;
-}
-.text-field:hover .validateMessage {
-  display: block;
-}
-.required {
-  color: red;
-}
-.errortext {
-  border-color: red !important;
-}
-textarea {
-  padding-right: 5px;
-  font-style: italic;
-  text-transform: uppercase;
-  color: #000;
-  resize: none;
-}
+  .text-field {
+    textarea {
+      padding: 6px 11px;
+      border-radius: 2px;
+      border: 1px solid #babec5;
+      outline: none;
+      width: 100%;
+      height: 100%;
+      /* max-height: 32px; */
+      &:focus {
+        border-color: #2ca01c;
+      }
+    }
 
+    .validateMessage {
+      position: absolute;
+      background: #443e3e;
+      left: 50%;
+      top: 50%;
+      width: 150px;
+      color: #fff;
+      transform: translateX(-50%);
+      user-select: none;
+      padding: 3px 3px;
+      display: none;
+      p {
+        font-size: 12px;
+        margin-bottom: 0;
+      }
+    }
+  }
+  ::placeholder {
+    font-style: italic;
+  }
+
+  .text-field:hover .validateMessage {
+    display: block;
+  }
+
+  .errortext {
+    border-color: red !important;
+  }
+  textarea {
+    padding-right: 5px;
+    font-style: italic;
+    text-transform: uppercase;
+    color: #000;
+    resize: none;
+  }
+}
 </style>

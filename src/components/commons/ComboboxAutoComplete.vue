@@ -35,7 +35,7 @@
           clickSuggestion(suggestion, index), getIndex(), getValue()
         "
       >
-        {{ suggestion.deparmentName }}
+        {{ suggestion.name }}
       </div>
     </div>
   </div>
@@ -43,51 +43,80 @@
 
 <script>
 export default {
+  // #region props
   props: {
     /**
      * Danh sách suggestion của autocomplete.
+     * Createdby: NGDuong (20/07/2021) 
      */
-    suggestions: {
+    suggestions: { // 
       type: Object,
       required: true,
     },
 
     /**
      * Giá trị khởi tạo cho input
+     * Createdby: NGDuong (20/07/2021) 
      */
     value: {
       type: Number/String,
       default: null,
     },
   },
+  // end region
+
+  // #region data
   data: () => ({
     /**
      * Xác định trạng thái popup autocomplete
+     * CreatedBy: NGDuong (20/07/2021)
      */
     isShow: false,
 
     /**
      * vị trí hiện tại
+     * CreatedBy: NGDuong (20/07/2021)
      */
     current: 0,
 
     /**
      * Danh sách suggesstion của autocomplete có lọc
+     * CreatedBy: NGDuong (20/07/2021)
      */
     suggestionData: [],
 
     /**
      * Giá trị của input
+     * CreatedBy: NGDuong (20/07/2021)
      */
     valueInput: "",
     /**
      * bien xoay theo su kien click
+     * CreatedBy: NGDuong (20/07/2021)
      */
     statusClick: false,
   }),
+  // end region
+
+  // #region Watch
+  watch:{
+    /**
+     * cập nhật sự thay đổi của combobox
+     * CreatedBy: NGDuong (20/07/2021)
+     */
+    valueInput: function (value) {
+      if (value != "") {
+        this.onInput(value);
+      }
+    },
+  },
+  // end region
+
+  // #region methods
   methods: {
     /**
      * Đảo ngược trạng thái popup
+     * CreatedBy: NGDuong (20/07/2021)
      */
     toggleSuggestion() {
       if (this.isShow) {
@@ -102,22 +131,25 @@ export default {
      * CreatedBy: NGDuong (15/07/2021)
      */
     getData(){
-      this.$emit("getDepartmentId", this.suggestionData[this.current].deparmentId);
+      this.$emit("getDepartmentId", this.suggestionData[this.current].value);
     },
     /**
      * getIndex
+     * CreatedBy: NGDuong (20/07/2021)
      */
     getIndex() {
-      console.log("id=" + this.suggestionData[this.current].deparmentId);
+      console.log("id=" + this.suggestionData[this.current].value);
     },
     /**
      * get Value
+     * CreatedBy: NGDuong (20/07/2021)
      */
     getValue() {
-      console.log("value=" + this.suggestionData[this.current].deparmentName);
+      console.log("value=" + this.suggestionData[this.current].name);
     },
     /**
      * Hiển thị popup
+     * CreatedBy: NGDuong (20/07/2021)
      */
     showSuggestion() {
       this.$el.querySelector("input").focus();
@@ -126,9 +158,10 @@ export default {
     },
     /**
      * Nhấn enter
+     * CreatedBy: NGDuong (20/07/2021)
      */
     enter() {
-      this.valueInput = this.suggestionData[this.current].text;
+      this.valueInput = this.suggestionData[this.current].name;
       this.isShow = false;
       this.$el.querySelector("input").blur();
       this.statusClick = false;
@@ -136,31 +169,35 @@ export default {
 
     /**
      * Nhấn up
+     * CreatedBy: NGDuong (20/07/2021)
      */
     up() {
       if (this.current > 0) this.current--;
-      this.valueInput = this.suggestionData[this.current].text;
+      this.valueInput = this.suggestionData[this.current].name;
     },
 
     /**
      * Nhấn down
+     * CreatedBy: NGDuong (20/07/2021)
      */
     down() {
       if (this.current < this.suggestions.length - 1) this.current++;
-      this.valueInput = this.suggestionData[this.current].text;
+      this.valueInput = this.suggestionData[this.current].name;
     },
     /**
      * Chọn một suggesstion
+     * CreatedBy: NGDuong (20/07/2021)
      */
     clickSuggestion(suggestion, index) {
       this.current = index;
       this.isShow = false;
-      this.valueInput = suggestion.text;
+      this.valueInput = suggestion.name;
       this.statusClick = false;
     },
 
     /**
      * Blur input
+     * CreatedBy: NGDuong (20/07/2021)
      */
     onBlur() {
       setTimeout(() => {
@@ -172,6 +209,7 @@ export default {
 
     /**
      * Nhập vào input
+     * CreatedBy: NGDuong (20/07/2021)
      */
     onInput(e) {
       let val = e.target.value;
@@ -179,40 +217,39 @@ export default {
       this.current = 0;
       if (this.suggestions) {
         this.suggestionData = this.suggestions.filter((s) =>
-          s.text.toLowerCase().includes(val.toLowerCase())
+          s.name.toLowerCase().includes(val.toLowerCase())
         );
         this.isShow = true;
       }
     },
   },
+  // end region
 
+  // #region mounted
   mounted() {
     this.suggestionData = this.suggestions;
     let index = this.suggestionData.findIndex((s) => s.value == this.value);
     if (index >= 0) {
       this.current = index;
-      this.valueInput = this.suggestionData[this.current].text;
+      this.valueInput = this.suggestionData[this.current].name;
     } else {
       this.current = 0;
       this.valueInput = "";
     }
   },
+  // end region
 };
 </script>
 <style lang="scss" scoped>
-
+/**---------Biến dùng chung------- */
 $navbar-width: 178px;
 $navbar-width-toggle: 52px;
-
 $rotate-icon: 180deg;
-
 $header-height: 48px;
-
 $icon-size: 24px;
-
 $color-white: #fff;
 
-// mixins
+// mixins-----------------------
 @mixin flex-row {
   display: flex;
   flex-direction: row;
@@ -229,7 +266,7 @@ $color-white: #fff;
   height: $size;
   width: $size;
 }
-
+/** ----------------Css------------------- */
 .flex-row-align-center {
   @include flex-row();
   align-items: center;

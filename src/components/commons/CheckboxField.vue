@@ -1,5 +1,5 @@
 <template>
-  <div @click="handleCheck" class="checkbox-container">
+  <div @click="handleCheck" :class="{rotate:isCheck}" class="checkbox-container">
     <div class="checkbox-field">
       <div v-if="isCheck" class="check-icon"></div>
     </div>
@@ -9,38 +9,55 @@
 
 <script>
 export default {
+  // #region props
   props: ["content"],
+  // end region
+
+  // #region data
   data() {
     return {
       isCheck: false,
     };
   },
+  // end region
+
+  // #region methods
   methods: {
     handleCheck() {
       this.isCheck = !this.isCheck;
     },
   },
+  // end region
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+@mixin widthheight($w,$h){
+  width: $w;
+  height: $h;
+}
+
 .checkbox-container {
   display: flex;
   cursor: pointer;
 }
 .checkbox-field {
-  width: 18px;
-  height: 18px;
+  @include widthheight(18px,18px);
   border-radius: 2px;
   border: 1px solid #afafaf;
   background: #fff;
 }
 .check-icon {
-  width: 24px;
-  height: 24px;
+  @include widthheight(24px,24px);
   background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat -1224px -360px;
 }
 .content {
   margin-left: 10px;
 }
+
+.routate{
+  transform: rotate(45deg);
+}
+
 </style>

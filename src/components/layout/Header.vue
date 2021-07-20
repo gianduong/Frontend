@@ -57,20 +57,30 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
-.header-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+/**Css mặc định */
+@mixin widthHeight($w, $h) {
+  width: $w;
+  height: $h;
 }
-.header-left {
+
+@mixin flex {
   display: flex;
   align-items: center;
 }
 
+.header-container {
+  width: 100%;
+  @include flex;
+  justify-content: space-between;
+
+}
+.header-left {
+  @include flex;
+}
+
 .header-select {
-  display: flex;
-  align-items: center;
+  @include flex;
 }
 .header-select-text {
   text-transform: uppercase;
@@ -80,8 +90,7 @@ export default {};
 }
 
 .header-logo {
-  width: 24px;
-  height: 24px;
+  @include widthHeight(24px,24px );
   background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat;
   cursor: pointer;
 }
@@ -103,25 +112,23 @@ export default {};
 }
 /* header right */
 .header-right {
-  display: flex;
-  align-items: center;
+  @include flex;
 }
 .header-right .logo-dropdown-m {
   background-position: -1076px -28px;
 }
 .heaser-user {
-  display: flex;
+  @include flex;
   padding: 0 16px;
   cursor: pointer;
-  align-items: center;
+
 }
 .name-user {
   color: #111;
   font-weight: 600;
 }
 .avatar-icon {
-  width: 32px;
-  height: 32px;
+  @include widthHeight(32px,32px);
   border-radius: 50%;
   background: #e8e8e9;
   overflow: hidden;
@@ -130,97 +137,5 @@ export default {};
 .avatar-icon img {
   width: 100%;
 }
-.tooltip {
-  display: block !important;
-  z-index: 10000;
 
-  .tooltip-inner {
-    background: black;
-    color: white;
-    border-radius: 16px;
-    padding: 5px 10px 4px;
-  }
-
-  .tooltip-arrow {
-    width: 0;
-    height: 0;
-    border-style: solid;
-    position: absolute;
-    margin: 5px;
-    border-color: black;
-    z-index: 1;
-  }
-
-  &[x-placement^="top"] {
-    margin-bottom: 5px;
-
-    .tooltip-arrow {
-      border-width: 5px 5px 0 5px;
-      border-left-color: transparent !important;
-      border-right-color: transparent !important;
-      border-bottom-color: transparent !important;
-      bottom: -5px;
-      left: calc(50% - 5px);
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-
-  &[x-placement^="bottom"] {
-    margin-top: 5px;
-
-    .tooltip-arrow {
-      border-width: 0 5px 5px 5px;
-      border-left-color: transparent !important;
-      border-right-color: transparent !important;
-      border-top-color: transparent !important;
-      top: -5px;
-      left: calc(50% - 5px);
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-
-  &[x-placement^="right"] {
-    margin-left: 5px;
-
-    .tooltip-arrow {
-      border-width: 5px 5px 5px 0;
-      border-left-color: transparent !important;
-      border-top-color: transparent !important;
-      border-bottom-color: transparent !important;
-      left: -5px;
-      top: calc(50% - 5px);
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
-
-  &[x-placement^="left"] {
-    margin-right: 5px;
-
-    .tooltip-arrow {
-      border-width: 5px 0 5px 5px;
-      border-top-color: transparent !important;
-      border-right-color: transparent !important;
-      border-bottom-color: transparent !important;
-      right: -5px;
-      top: calc(50% - 5px);
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
-
-  &[aria-hidden="true"] {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.15s, visibility 0.15s;
-  }
-
-  &[aria-hidden="false"] {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 0.15s;
-  }
-}
 </style>

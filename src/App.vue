@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-navigation-drawer :class="{'resize-navigation' : drawer}" app>
       <!--Nav bar  -->
       <NavBar :isShow="isShow" @resize="resizeShow"/>

@@ -6,8 +6,8 @@
     </td>
     <td>{{ employee.employeeCode }}</td>
     <td>{{ employee.fullName }}</td>
-    <td>{{ employee.genderName }}</td>
-    <td>{{ formatDateOfBirth }}</td>
+    <td>{{ employee.gender |fomatGender }}</td>
+    <td>{{ employee.dateOfBirth | formatDate }}</td>
     <td>{{ employee.identityNumber }}</td>
     <td>{{ employee.positionName }}</td>
     <td>{{ formatDeparmentName }}</td>
@@ -77,6 +77,7 @@
 import CheckboxField from "../commons/CheckboxField.vue";
 import DialogNotify from "../commons/DialogNotify.vue";
 import axios from "axios";
+import moment from 'moment'
 //#endregion
 
 export default {
@@ -101,30 +102,41 @@ export default {
   },
   //#endregion
 
+  //#region Filter
+  filters: {
+    /**
+     * Hàm fomat thời gian
+     * Createdby: NGDuong (19/07/2021)
+     */
+    formatDate(value) {
+      if (value) {
+        return moment(String(value)).format("DD/MM/YYYY");
+      }
+    },
+    /**
+     * hàm fomat giới tính
+     * Createdby: NGDuong (19/07/2021)
+     */
+    fomatGender(value) {
+      if (value == 0) {
+        return "Khác";
+      } else if (value == 1) {
+        return "Nam";
+      } else {
+        return "Nữ";
+      }
+    },
+  },
+  //#endRegion
+
   //#region Computed
   computed: {
     /**
-     * format dữ liệu ngày tháng
-     * CreateBy : PQHieu(11/06/2021)
-     */
-    formatDateOfBirth() {
-      if (this.employee.dateOfBirth) {
-        const newDate = new Date(this.employee.dateOfBirth);
-        let strDay = newDate.getDate();
-        let strMonth = newDate.getMonth() + 1;
-        let strYear = newDate.getFullYear();
-        if (strDay < 10) strDay = `0${strDay}`;
-        if (strMonth < 10) strMonth = `0${strMonth}`;
-        return `${strDay}/${strMonth}/${strYear}`;
-      }
-      return null;
-    },
-
-    /**
      * format dữ liệu tên phòng ban theo id nhận được
-     * CreateBy : PQHieu(11/06/2021)
+     * CreateBy : NGDuong(11/06/2021)
      */
     formatDeparmentName() {
+      debugger
       for (let i = 0; i < this.listDeparment.length; i++) {
         if (this.listDeparment[i].deparmentId === this.employee.deparmentId)
           return this.listDeparment[i].deparmentName;
@@ -139,7 +151,7 @@ export default {
     /**
      * Lấy id nhân viên
      * @param="id" : id nhân viên cần lấy thông tin
-     * CreateBy : PQHieu(11/06/2021)
+     * CreateBy : NGDuong(11/06/2021)
      */
     getEmployeeInfoId(id) {
       this.$emit("handleGetEmployeeID", id);
@@ -148,7 +160,7 @@ export default {
     /**
      * Xóa nhân viên theo id
      * @param="employeeId" : mã nhân viên cần xóa
-     * CreatedBy : PQHieu(11/06/2021)
+     * CreatedBy : NGDuong(11/06/2021)
      */
     async deleteEmployee(employeeId) {
       try {
@@ -168,7 +180,7 @@ export default {
 
     /**
      * đóng dialog confirm
-     * CreatedBy : PQHieu(13/06/2021)
+     * CreatedBy : NGDuong(13/06/2021)
      */
     handleCloseDialog() {
       this.dialogConfirm = false;
@@ -176,7 +188,7 @@ export default {
 
     /**
      * dóng mở dropdown
-     * CreatedBy : PQHieu(13/06/2021)
+     * CreatedBy : NGDuong(13/06/2021)
      */
     handelShowDrop(e) {
       if (e.screenY > 550) {
@@ -190,7 +202,7 @@ export default {
 
     /**
      * đóng option và reset các thuộc tính
-     * CreatedBy : PQHieu(13/06/2021)
+     * CreatedBy : NGDuong(13/06/2021)
      */
     closeDrop() {
       this.showDrop = false;

@@ -131,14 +131,14 @@ export default {
   transform: translateX(-50%);
   user-select: none;
   padding: 3px 3px;
-  display: none;
+  display: block;
 }
 .validateMessage p {
   font-size: 12px;
   margin-bottom: 0;
 }
 .input-field:hover .validateMessage {
-  display: block;
+  display: none;
 }
 .required {
   color: red;

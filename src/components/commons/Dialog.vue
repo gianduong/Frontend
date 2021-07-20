@@ -156,7 +156,7 @@
             </div>
           </div>
           <div class="pr-6">
-            <InputField :label="'Nơi cấp'" v-model="employee.identityPlace" />
+            <InputField :label="'Nơi cấp'" style="margin-right:-5px" v-model="employee.identityPlace" />
           </div>
         </div>
         <!--  -->
@@ -166,7 +166,7 @@
       <!--  -->
       <div class="modal-content-bottom pt-24">
         <div class="p-12">
-          <InputField :label="'Địa chỉ'" v-model="employee.address" />
+          <InputField :label="'Địa chỉ'" style="margin-right:10px" v-model="employee.address" />
         </div>
         <div class="p-12 group-input">
           <div class="pr-6">
@@ -487,7 +487,7 @@ export default {
         this.notifyMessage = "Đơn vị không được để trống";
         this.errorNotifyDepartment.status = true;
         this.errorNotifyDepartment.errorMessage = "Đơn vị không được để trống";
-        this.dialogNotifyError = true;
+        // this.dialogNotifyError = true;
         isValid = false;
       }
 
@@ -495,14 +495,14 @@ export default {
         this.notifyMessage = "Tên không được để trống";
         this.errorNotifyFullName.status = true;
         this.errorNotifyFullName.errorMessage = "Tên không được để trống";
-        this.dialogNotifyError = true; // hiển thị dialog báo lỗi
+        // this.dialogNotifyError = true; // hiển thị dialog báo lỗi
         isValid = false;
       }
       if (this.employee.employeeCode.length == 0) {
         this.notifyMessage = "Mã nhân viên không được để trống";
         this.errorNotifyCode.status = true;
         this.errorNotifyCode.errorMessage = "Mã không được để trống";
-        this.dialogNotifyError = true; // hiển thị dialog báo lỗi
+        // this.dialogNotifyError = true; // hiển thị dialog báo lỗi
         isValid = false;
       }
       return isValid;
@@ -620,6 +620,7 @@ export default {
         var newOb = this.employeeDetail;
         newOb.dateOfBirth = this.formatDate(newOb.dateOfBirth);
         newOb.identityDate = this.formatDate(newOb.identityDate);
+        // kiểm tra xem có thay đổi dữ liệu không, nếu có thì đưa ra cảnh báo, nếu không thì thôi :v
         if (!this.handleCompareObject(newOb, this.employee)) {
           this.dialogNotifyConfirm = true;
         } else this.$emit("handleCloseDialog");
@@ -627,10 +628,10 @@ export default {
     },
 
     /**
-     * so sánh 2 object
+     * Kiểm tra xem có sự thay đổi dữ liệu hay không
      * @param="object1" : object cần so sánh
      * @param="object2" : object cần so sách
-     * CreatedBy : NGDuong(14/06/2021)
+     * CreatedBy : NGDuong(14/07/2021)
      */
     handleCompareObject(object1, object2) {
       const keys1 = Object.keys(object1);
@@ -662,8 +663,7 @@ export default {
         this.employee.employeeCode = data.data;
         this.showLoading = false; // ẩn loading
         return data.data;
-      } catch (error) {
-        
+      } catch (error) {        
       }
     },
     //#endregion

@@ -12,8 +12,3 @@ new Vue({
   vuetify,
   render: (h) => h(App),
 }).$mount("#app");
-new Vue({
-  data: {
-    msg: 'This is a button.'
-  }
-})

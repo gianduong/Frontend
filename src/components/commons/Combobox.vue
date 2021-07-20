@@ -37,21 +37,29 @@
 
 <script>
 export default {
+  // #region props
   props: {
-    suggestions: {
+    suggestions: { // mảng dữ liệu cần hiển thị
       type: Array,
       required: true,
     },
-    value: {
+    value: { // giá trị của dữ liệu
       type: Number/String,
       default: null,
     },
   },
+  // endregion
+
+  // #region data
   data: () => ({
     isShow: false,
     current: 0,
     statusIcon:false,
   }),
+  // endregion
+
+  // #region Methods
+
   methods: {
     /**
      * Đảo ngược trạng thái popup
@@ -75,6 +83,7 @@ export default {
     },
     /**
      * Hiển thị popup
+     * CreatedBy: NGDuong (15/07/2021)
      */
     showSuggestion() {
       this.$el.querySelector("input").focus();
@@ -84,6 +93,7 @@ export default {
 
     /**
      * Chọn một suggesstion
+     * CreatedBy: NGDuong (15/07/2021)
      */
     clickSuggestion(suggestion, index) {
       this.current = index;
@@ -93,6 +103,7 @@ export default {
 
     /**
      * Blur input
+     * CreatedBy: NGDuong (15/07/2021)
      */
     onBlur() {
       setTimeout(() => {
@@ -103,6 +114,7 @@ export default {
 
     /**
      * Nhấn enter
+     * CreatedBy: NGDuong (15/07/2021)
      */
     enter() {
       this.isShow = false;
@@ -112,6 +124,7 @@ export default {
 
     /**
      * Nhấn up
+     * CreatedBy: NGDuong (15/07/2021)
      */
     up() {
       if (this.current > 0) this.current--;
@@ -119,12 +132,15 @@ export default {
 
     /**
      * Nhấn down
+     * CreatedBy: NGDuong (15/07/2021)
      */
     down() {
       if (this.current < this.suggestions.length - 1) this.current++;
     },
   },
+  // endregion
 
+  // #region Mounted
   mounted() {
     let index = this.suggestions.findIndex((s) => s.value == this.value);
     if (index >= 0) {
@@ -133,6 +149,7 @@ export default {
       this.current = 0;
     }
   },
+  // endregion
 };
 </script>
 <style lang="scss" scoped>
@@ -140,13 +157,9 @@ export default {
 /** biến dùng chung */
 $navbar-width: 178px;
 $navbar-width-toggle: 52px;
-
 $rotate-icon: 180deg;
-
 $header-height: 48px;
-
 $icon-size: 24px;
-
 $color-white: #fff;
 
 // mixins
@@ -166,6 +179,8 @@ $color-white: #fff;
   height: $size;
   width: $size;
 }
+
+/** --------------------css---------------- */
 
 .flex-row-align-center {
   @include flex-row();

@@ -8,21 +8,12 @@
         <v-dialog v-model="dialogAddOrUpdate" width="900px" :persistent="true">
           <template v-slot:activator="{ on, attrs }">
             <div class="btn-add" v-bind="attrs" v-on="on">
-              <v-tooltip bottom style="z-index: 100000">
-                <template v-slot:activator="{ on, attrs }">
-                  <Button
-                    content="Thêm mới nhân viên"
-                    v-bind="attrs"
-                    v-on="on"
-                  />
-                </template>
-                <span>Thêm mới</span>
-              </v-tooltip>
+              <Button content="Thêm mới nhân viên" v-bind="attrs" v-on="on" />
             </div>
           </template>
 
           <v-card height="600px">
-            <Store
+            <Dialog           
               :employeeDetail="employeeDetail"
               @handleCloseDialog="closeDialog"
               @handleShowDialog="showDialog"
@@ -62,14 +53,14 @@
             :searchField="true"
             v-model="filterValue"
             v-debounce:300ms="handelFilter"
-            ref="toFocus"
+            ref="inputFocus"
           />
         </div>
         <v-tooltip bottom style="z-index: 100000">
           <template v-slot:activator="{ on, attrs }">
             <div
               class="refresh-btn"
-              @click="getListEmployee"
+              @click="RefreshEmployee"
               v-bind="attrs"
               v-on="on"
             >
@@ -185,7 +176,7 @@
             @changeValue="handleChangeValue"
           /> -->
           <div style="witdh: 200px; height: 32px">
-            <Combobox
+            <Combobox 
               v-model="pageSize"
               :value.sync="pageSize"
               :suggestions="options"
@@ -303,7 +294,8 @@ export default {
     this.getListEmployee(); // lấy danh sách nhân viên
     this.getListDepartment(); // lấy danh sách phòng ban
     setTimeout(() => {
-      this.$refs.toFocus.handleFocus();
+      //focus vào ô tìm kiếm
+      this.$refs.inputFocus.handleFocus();
     }, 200);
   },
 
@@ -311,6 +303,7 @@ export default {
   watch: {
     /**
      * Bắt thay đổi của pageInt
+     * CreatedBy: NGDuong (19/07/2021)
      */
     pageInt() {
       this.getListEmployee();
@@ -318,6 +311,7 @@ export default {
 
     /**
      * bắt thay đổi của pageSize
+     * CreatedBy: NGDuong (19/07/2021)
      */
     pageSize() {
       this.getListEmployee();
@@ -330,7 +324,8 @@ export default {
   computed: {
     /**
      * Tạo chuỗi queryString
-     * return chuỗi queryyString
+     * return chuỗi queryString
+     * CreatedBy: NGDuong (19/07/2021)
      */
     dataFilter() {
       const data = {
@@ -343,6 +338,7 @@ export default {
     /**
      * Tính số lượng page
      * return : Số lượng page
+     * CreatedBy: NGDuong (19/07/2021)
      */
     totalPage() {
       return Math.ceil(this.totalItem / this.pageSize);
@@ -352,10 +348,9 @@ export default {
 
   methods: {
     //#region Các hàm xử lý logic
-
     /**
      * bắt sự kiện đóng dialog của dialog con
-     
+     * CreatedBy: NGDuong (19/07/2021)
      */
     closeDialog() {
       this.dialogAddOrUpdate = false;
@@ -363,7 +358,7 @@ export default {
 
     /**
      * bắt sự kiện mở dialog của dialog con
-     
+     * CreatedBy: NGDuong (19/07/2021)
      */
     showDialog() {
       this.dialogAddOrUpdate = true;
@@ -371,7 +366,7 @@ export default {
 
     /**
      * đóng dialog notify
-     
+     * CreatedBy: NGDuong (19/07/2021)
      */
     handleCloseDialog() {
       this.dialogNotify = false;
@@ -379,7 +374,7 @@ export default {
 
     /**
      * Bắt dự kiện chỉnh sửa
-     
+     * CreatedBy: NGDuong (19/07/2021)
      */
     getEmployeeID(id) {
       this.modeUpdate = true; //thay đổi sang updateMode khi thực hiện chỉnh sửa;
@@ -387,8 +382,17 @@ export default {
     },
 
     /**
+     * Di chuyển vị trí div theo con trỏ chuột
+     * Createdby: NGDuong (19/07/2021)
+     */
+    mouseLocation() {
+      this.$refs.position.style.top +=  10 + "px";
+      this.$refs.position.style.left += 35 + "px";
+    },
+
+    /**
      * Reset EmployeeDetail and mode update
-     
+     * CreatedBy: NGDuong (19/07/2021)
      */
     resetEmployeeDetail() {
       this.employeeDetail = null;
@@ -444,6 +448,14 @@ export default {
     },
 
     /**
+     * Refresh danh sách nhân viên
+     * CreatedBy: NGDuong (19/07/2021)
+     */
+    RefreshEmployee() {
+      this.filterValue = "";
+      this.getListEmployee();
+    },
+    /**
      * Tìm kiếm theo tên hoặc mã nhân viên
      * NGDuong (!7/07/2021)
      */
@@ -453,14 +465,11 @@ export default {
     },
     //#endregion
 
-    /**
-     *
-     */
     //#region các hàm gọi API
 
     /**
      * Lấy danh sách nhân viên
-     
+     * CreatedBy: NGDuong (19/07/2021)
      */
     async getListEmployee() {
       // debugger;
@@ -482,7 +491,7 @@ export default {
 
     /**
      * Lấy danh sách phòng ban
-     
+     * CreatedBy: NGDuong (19/07/2021)
      */
     async getListDepartment() {
       try {
@@ -495,7 +504,6 @@ export default {
           value: d.deparmentId,
           name: d.deparmentName,
         }));
-        console.log(this.listDepartmentCombobox);
         this.showLoading = false; // ẩn loading
       } catch (error) {
         this.showLoading = false; // ẩn loading khi có lỗi
@@ -505,7 +513,7 @@ export default {
     /**
      * Lấy thông tin nhân viên theo id
      * @param="employeeId" : id nhân viên cần lấy thông tin
-     
+     * CreatedBy: NGDuong (19/07/2021)
      */
     async getEmployeeInfo(employeeId) {
       try {
@@ -521,7 +529,7 @@ export default {
 
     /**
      * Xuất dữ liệu ra excel
-     
+     * CreatedBy: NGDuong (19/07/2021)
      */
     exportExcel() {
       window.open("https://localhost:44376/api/v1/Employees/Export");
@@ -529,170 +537,180 @@ export default {
   },
 
   //#endregion
-  /**
-   *
-   */
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+/**biến tự định nghĩa */
+$Background-: url("../../assets/img/Sprites.64af8f61.svg") no-repeat;
+$color-white: #fff;
+$color-scroll: #d4d7dc;
+$color-paginantion: #c7c7c7;
+$color-pagination-button: #9e9e9e;
+$color-active: #111;
+
+/**Css mặc định */
+@mixin widthHeight($w, $h) {
+  width: $w;
+  height: $h;
+}
+
+@mixin flex {
+  display: flex;
+  align-items: center;
+}
+
+@mixin icon($w, $h) {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  margin-left: 18px;
+  margin-bottom: 5px;
+  background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat $w $h;
+}
+
+/**---------------------------------------------------------------------------- */
+
 /**-----------------loading------------------ */
 .loading {
   background-image: url("../../assets/load-data.gif");
   position: fixed;
   top: 40%;
   left: 50%;
-  width: 100%;
-  height: 100%;
+  @include widthHeight(100%, 100%);
   z-index: 10001;
 }
 /** ----------------Container-------------- */
 .content-container {
   background: #f4f5f6;
   padding: 0 20px;
-}
-/**-------title--------- */
-.content-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 94px;
-}
-.title-name {
-  display: block;
-  font-size: 24px;
-  font-family: "notosans-bold";
-  color: #111;
-}
-.main-content {
-  background: #fff;
-  padding: 0 20px;
-}
-.table-content {
-  overflow: auto;
-  display: block;
-  height: calc(100vh - 94px - 48px - 64px + 55px);
-}
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  background: #fff;
-}
-::-webkit-scrollbar-thumb {
-  background: #d4d7dc;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #616164;
-}
-/* search content */
-.search-content {
-  padding: 16px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-.search-wrapper {
-  width: 240px;
-}
-.refresh-icon {
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-  background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat -423px -201px;
-  margin-left: 18px;
-}
+  /**-------title--------- */
+  .content-title {
+    @include flex;
+    @include widthHeight(100%, 94px);
+    justify-content: space-between;
 
-.refresh-icon:hover {
-  cursor: pointer;
-  background-position: -1097px -88px;
-}
-.excel-icon {
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-  margin-left: 18px;
-  background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat -704px -200px;
-}
-.excel-icon:hover {
-  background-position: -704px -256px;
-}
-/* Footer-pagination */
-.pagination-container {
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  background: #fff;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid #c7c7c7;
-  z-index: 102;
-}
-.pagination-wrapper {
-  display: flex;
-  align-items: center;
-}
-.paginations {
-  display: flex;
-  align-items: center;
-  min-width: 350px;
-}
-.dropdown-pagiantion {
-  position: relative;
-  margin: 0 16px;
-  left: 42px;
-  width: 198px;
-}
-/* Pagionation */
-.pagination-prev-btn,
-.pagination-next-btn {
-  position: relative;
-  color: #9e9e9e;
-  cursor: default;
-  user-select: none;
-}
-.pagination-prev-btn {
-  left: 42px;
-}
-.pagination-next-btn {
-  right: 42px;
-}
-.pagination-prev-btn.active,
-.pagination-next-btn.active {
-  cursor: pointer;
-  color: #111;
-}
-.pag-btn {
-  margin-right: 13px;
-  cursor: pointer;
-}
-.btn-pagination {
-  padding: 0 6.5px;
-}
-.btn-pagination.active {
-  border: 1px solid #e0e0e0;
-  font-weight: 700;
-}
-.next-btn,
-.prev-btn {
-  color: #9e9e9e;
-  cursor: default;
-  user-select: none;
-}
-.total-value {
-  font-weight: 700;
-}
-.list-btn-pagination {
-  display: flex;
-}
-.pag-btn.active {
-  color: #111;
-  cursor: pointer;
-}
+    .title-name {
+      display: block;
+      font-size: 24px;
+      font-family: "notosans-bold";
+      color: #111;
+    }
+  }
 
-.resize {
-  width: calc();
+  .main-content {
+    background: #fff;
+    padding: 0 20px;
+  }
+  .table-content {
+    overflow: auto;
+    display: block;
+    height: calc(100vh - 94px - 48px - 64px + 55px);
+  }
+  /** Scrollbar */
+  ::-webkit-scrollbar {
+    @include widthHeight(10px, 10px);
+    background: $color-white;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #d4d7dc;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #616164;
+  }
+  /*-------------------- icon content------------------- */
+  .search-content {
+    padding: 16px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  .search-wrapper {
+    width: 240px;
+  }
+  .refresh-icon {
+    @include icon(-423px, -201px);
+    &:hover {
+      cursor: pointer;
+      background-position: -1097px -88px;
+    }
+  }
+  .excel-icon {
+    @include icon(-704px, -200px);
+  }
+  .excel-icon:hover {
+    background-position: -704px -256px;
+  }
+  /* Footer-pagination */
+  .pagination-container {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    background: $color-white;
+    height: 46px;
+    @include flex;
+    justify-content: space-between;
+    border-top: 1px solid #c7c7c7;
+    z-index: 102;
+  }
+  .pagination-wrapper {
+    @include flex;
+  }
+  .paginations {
+    @include flex;
+    min-width: 350px;
+  }
+  .dropdown-pagiantion {
+    position: relative;
+    margin: 0 16px;
+    left: 42px;
+    width: 198px;
+  }
+  /* Pagionation */
+  .pagination-prev-btn,
+  .pagination-next-btn {
+    position: relative;
+    color: $color-pagination-button;
+    cursor: default;
+    user-select: none;
+  }
+  .pagination-prev-btn {
+    left: 42px;
+  }
+  .pagination-next-btn {
+    right: 42px;
+  }
+  .pagination-prev-btn.active,
+  .pagination-next-btn.active {
+    cursor: pointer;
+    color: $color-active;
+  }
+  .pag-btn {
+    margin-right: 13px;
+    cursor: pointer;
+  }
+  .btn-pagination {
+    padding: 0 6.5px;
+  }
+  .btn-pagination.active {
+    border: 1px solid #e0e0e0;
+    font-weight: 700;
+  }
+  .next-btn,
+  .prev-btn {
+    color: $color-pagination-button;
+    cursor: default;
+    user-select: none;
+  }
+  .total-value {
+    font-weight: 700;
+  }
+  .list-btn-pagination {
+    display: flex;
+  }
+  .pag-btn.active {
+    color: $color-active;
+    cursor: pointer;
+  }
 }
 </style>

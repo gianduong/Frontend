@@ -145,9 +145,9 @@
             ></v-autocomplete> -->
             <Combobox
               style="flex-grow: 5"
-              v-model="employee.deparmentId"
+              
               :value.sync="employee.deparmentName"
-              :suggestions="listDepartmentCombobox"
+              :suggestions="listCombobox"
             />
           </div>
         </div>
@@ -235,7 +235,11 @@ export default {
     "listDepartmentCombobox",
   ],
   //#endregion
-
+  data(){
+    return{
+      listCombobox:[],
+    }
+  },
   //#region Component
   components: {
     Button,
@@ -259,6 +263,7 @@ export default {
       this.employee.identityDate = this.formatDateEmployee(
         this.employee.identityDate
       );
+      this.listCombobox = listDepartmentCombobox;
       setTimeout(() => {
         this.$refs.toFocus.handleFocus();
       }, 200);
@@ -533,9 +538,7 @@ export default {
      * CreatedBy : NGDuong(12/06/2021)
      */
     async handleAdd() {
-      this.closeDialogCheck = false;
       this.employee.employeeId = uuidv4();
-      debugger;
       try {
         await axios({
           method: "post",
@@ -561,7 +564,6 @@ export default {
 
         this.$emit("handleReload"); // load laị dữ liệu
       } catch (error) {
-        this.closeDialogCheck = false;
         if (error.response.status == "400") {
           if (error.response.data.data.detail.fieldNotValid == "EmployeeCode") {
             this.notifyMessage = error.response.data.userMsg;
@@ -603,7 +605,6 @@ export default {
           if (error.response.data.data.detail.fieldNotValid == "EmployeeCode") {
             this.notifyMessage = error.response.data.userMsg;
             this.dialogNotifyDanger = true; // hiển thị dialog cảnh báo
-            this.closeDialogCheck = false;
           }
         }
       }

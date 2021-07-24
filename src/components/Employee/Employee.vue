@@ -1,8 +1,8 @@
 <template>
   <!-- employee detail -->
   <tr @dblclick="getEmployeeInfoId(employee.employeeId)">
-    <td class="table-checkbox">
-      <CheckboxField />
+    <td class="table-checkbox" @click="handleCheckBox">
+      <CheckboxField :isCheck="isCheckBoxSingle" />
     </td>
     <td>{{ employee.employeeCode }}</td>
     <td>{{ employee.fullName }}</td>
@@ -82,7 +82,7 @@ import moment from 'moment'
 
 export default {
   //#region Props
-  props: ["employee", "listDeparment", "index"],
+  props: ["employee", "listDepartment", "index","isCheck", "isCheckBox"],
   //#endregion
 
   //#region Components
@@ -95,6 +95,7 @@ export default {
   //#region Data
   data() {
     return {
+      isCheckBoxSingle: false, // Thay đổi giá trị prop
       dialogConfirm: false,
       showDrop: false, // đóng mở dropdown
       showDropTop: false, // điều chỉnh hướng mở option lên trên
@@ -102,6 +103,18 @@ export default {
   },
   //#endregion
 
+  // #region Watch
+  watch:{
+    /**
+     * cập nhật sự thay đổi giá trị của isCheckBox gửi lên từ content
+     * CreatedBy: NGDuong (24/07/2021)
+     */
+    isCheckBox: function(value){
+      this.isCheckBoxSingle = value;
+    }
+  },
+  // end region
+  
   //#region Filter
   filters: {
     /**
@@ -133,13 +146,13 @@ export default {
   computed: {
     /**
      * format dữ liệu tên phòng ban theo id nhận được
-     * CreateBy : NGDuong(11/06/2021)
+     * CreateBy : NGDuong(20/07/2021)
      */
     formatDeparmentName() {
       // debugger
-      for (let i = 0; i < this.listDeparment.length; i++) {
-        if (this.listDeparment[i].deparmentId === this.employee.deparmentId)
-          return this.listDeparment[i].deparmentName;
+      for (let i = 0; i < this.listDepartment.length; i++) {
+        if (this.listDepartment[i].deparmentId === this.employee.deparmentId)
+          return this.listDepartment[i].deparmentName;
       }
       return null;
     },
@@ -151,7 +164,7 @@ export default {
     /**
      * Lấy id nhân viên
      * @param="id" : id nhân viên cần lấy thông tin
-     * CreateBy : NGDuong(11/06/2021)
+     * CreateBy : NGDuong(20/07/2021)
      */
     getEmployeeInfoId(id) {
       this.$emit("handleGetEmployeeID", id);
@@ -160,7 +173,7 @@ export default {
     /**
      * Xóa nhân viên theo id
      * @param="employeeId" : mã nhân viên cần xóa
-     * CreatedBy : NGDuong(11/06/2021)
+     * CreatedBy : NGDuong(20/07/2021)
      */
     async deleteEmployee(employeeId) {
       try {
@@ -179,8 +192,15 @@ export default {
     },
 
     /**
+     * checkbox
+     * CreatedBy: NGDuong (21/07/2021)
+     */
+    handleCheckBox(){
+      this.isCheckBoxSingle = !this.isCheckBoxSingle;
+    },
+    /**
      * đóng dialog confirm
-     * CreatedBy : NGDuong(13/06/2021)
+     * CreatedBy : NGDuong(21/07/2021)
      */
     handleCloseDialog() {
       this.dialogConfirm = false;
@@ -188,7 +208,7 @@ export default {
 
     /**
      * dóng mở dropdown
-     * CreatedBy : NGDuong(13/06/2021)
+     * CreatedBy : NGDuong(21/07/2021)
      */
     handelShowDrop(e) {
       if (e.screenY > 550) {
@@ -202,7 +222,7 @@ export default {
 
     /**
      * đóng option và reset các thuộc tính
-     * CreatedBy : NGDuong(13/06/2021)
+     * CreatedBy : NGDuong(21/07/2021)
      */
     closeDrop() {
       this.showDrop = false;

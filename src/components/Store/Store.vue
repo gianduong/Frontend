@@ -84,7 +84,7 @@
         </div>
         <div class="content-base">
           <div class="grow-1">Địa chỉ <span style="color: red"> *</span></div>
-          <InputTextArea
+          <TextAreaField
             style="flex-grow: 2.5"
             tabindex="3"
             v-model="employee.address"
@@ -217,7 +217,7 @@
 import Button from "../commons/Button.vue";
 import InputField from "../commons/InputField.vue";
 import Combobox from "../commons/Combobox.vue";
-import InputTextArea from "../commons/InputTextArea.vue";
+import TextAreaField from "../commons/TextAreaField.vue";
 import CheckboxField from "../commons/CheckboxField.vue";
 import DefaultEmployee from "../constant/DefaultEmployee";
 import DialogNotify from "../commons/DialogNotify.vue";
@@ -247,7 +247,7 @@ export default {
     CheckboxField,
     DialogNotify,
     Combobox,
-    InputTextArea,
+    TextAreaField,
   },
   //#endregion
 

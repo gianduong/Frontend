@@ -56,7 +56,7 @@ export default {
   methods: {
     /**
      * Truyền dữ liệu nhận được ra ngoài dialog
-     * CreatedBy: NGDuong(16/07/2021)
+     * CreatedBy: NGDuong(22/07/2021)
      */
     getValue(e) {
       this.$emit("input", e.target.value);
@@ -64,7 +64,7 @@ export default {
 
     /**
      * Hiển thị thông báo lỗi
-     * CreatedBy: NGDuong(16/07/2021)
+     * CreatedBy: NGDuong(22/07/2021)
      */
     handleValidate() {
       if (this.required && this.validate) {
@@ -74,7 +74,7 @@ export default {
 
     /**
      * đóng hiển thị thông báo lỗi
-     * CreatedBy: NGDuong(16/07/2021)
+     * CreatedBy: NGDuong(22/07/2021)
      */
     handleLeave() {
       if (this.required && this.validate) {
@@ -83,7 +83,7 @@ export default {
     },
     /**
      * focus vào 1 element
-     * CreatedBy: NGDuong(16/07/2021)
+     * CreatedBy: NGDuong(22/07/2021)
      */
     handleFocus() {
       this.$refs.autoFocus.focus();

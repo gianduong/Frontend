@@ -1,5 +1,5 @@
 <template>
-  <div :class="['btn', btnWhite ? 'btn-white' : '']">
+  <div class="button" :class="['btn', btnWhite ? 'btn-white' : '']">
     <span>{{ content }}</span>
   </div>
 </template>
@@ -8,6 +8,11 @@
 export default {
   /** #region props */
   props: ["content", "btnWhite"],
+  // end region
+  /**#region method */
+  methods:{
+
+  }
   // end region
 };
 </script>
@@ -40,5 +45,8 @@ export default {
   .btn-white:hover {
     background-color: #d2d3d6;
   }
+}
+.button:hover{
+  background-color: #D2D3D6;
 }
 </style>

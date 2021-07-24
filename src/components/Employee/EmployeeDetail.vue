@@ -34,11 +34,21 @@
       <div class="container-title">
         <h1>Thông tin nhân viên</h1>
         <div class="checkbox">
-          <CheckboxField
+          <div @click="isCheckBox = !isCheckBox">
+            <CheckboxField
+            :isCheck="!isCheckBox"
+            v-on:click="handleCheckBox"
             :content="'Là khách hàng'"
             style="margin-right: 20px"
           />
-          <CheckboxField :content="'Là nhà cung cấp'" />
+          </div>
+          <div @click="isCheckBox = !isCheckBox">
+            <CheckboxField
+            :content="'Là nhà cung cấp'"
+            :isCheck="isCheckBox"
+            v-on:click="handleCheckBox"
+          />
+          </div>
         </div>
         <div class="modal-close">
           <v-tooltip bottom style="z-index: 100000">
@@ -56,7 +66,7 @@
                 v-on="on"
               ></div>
             </template>
-            <span>Thoát</span>
+            <span>Thoát (ESC)</span>
           </v-tooltip>
         </div>
       </div>
@@ -92,6 +102,7 @@
                 <label>Đơn vị</label>
                 <v-autocomplete
                   solo
+                  color="green"
                   v-model="employee.deparmentId"
                   :items="listDepartment"
                   item-text="deparmentName"
@@ -181,17 +192,16 @@
           <div class="bottom-1">
             <div class="resize">
               <InputField
-                style="margin-right: -20px;"
+                style="margin-right: -20px"
                 :label="'Địa chỉ'"
                 v-model="employee.address"
               />
             </div>
           </div>
           <div class="bottom-2">
-            <div class="bottom-phone">
-              <div class="resize" style="height:33px">
+            <div class="attr-phone">
+              <div class="resize">
                 <InputField
-                  style="margin-top:-30px"
                   :label="'ĐT di động'"
                   v-model="employee.phoneNumber"
                 />
@@ -241,20 +251,32 @@
       </div>
       <!-- button -->
       <div class="container-bottom">
-        <div class="btn-close" >
-          <div class="resize" @click="$emit('handleCloseDialog')">
+        <div class="btn-close">
+          <div
+            class="resize"
+            @click="$emit('handleCloseDialog')"
+            @keydown.enter="enter('Hủy')"
+          >
             <Button :content="'Hủy'" :btnWhite="true" tabindex="0" />
           </div>
         </div>
-        <div class="btn-save" >
+        <div class="btn-save">
           <div class="btn-cat">
-            <div class="resize" @click="handleAddOrUpdate">
+            <div
+              class="resize"
+              @click="handleAddOrUpdate"
+              @keydown.enter="enter('Cất')"
+            >
               <Button :content="'Cất'" :btnWhite="true" tabindex="0" />
             </div>
           </div>
           <div class="btn-saveAndAdd">
-            <div class="resize" @click="handleSaveAndAdd">
-              <Button :content="'Cất và Thêm'" tabindex="0"/>
+            <div
+              class="resize"
+              @click="handleSaveAndAdd"
+              @keydown.enter="enter('Cất và Thêm')"
+            >
+              <Button :content="'Cất và Thêm'" tabindex="0" />
             </div>
           </div>
         </div>
@@ -306,22 +328,23 @@ export default {
         bankName: "",
         bankBranch: "",
       },
+      isCheckBox: false, // thay đổi CheckBox
       compareObject: null, // object lưu dữ liệu nhân viên để so sánh thay đổi
       notifyMessage: "", // Nội dùng dialog
       dialogNotifyError: false, // hiển thị dialog thông báo lỗi
       dialogNotifyDanger: false, // hiển thị dialog cảnh báo
       dialogNotifyConfirm: false, // hiển thị dialog thông báo
       saveAndAddMode: false, // chế độ cất và thêm
-      errorNotifyCode: {
-        status: false, // bắt validate Code field
+      errorNotifyCode: {// trạng thái & thông điệp lỗi
+        status: false, 
         errorMessage: "",
       },
-      errorNotifyFullName: {
-        status: false, // bắt validate fullName field
+      errorNotifyFullName: { // trạng thái & thông điệp lỗi
+        status: false,
         errorMessage: "",
       },
-      errorNotifyDepartment: {
-        status: false, // bắt validate đơn vị
+      errorNotifyDepartment: { // trạng thái & thông điệp lỗi
+        status: false,
         errorMessage: "",
       },
     };
@@ -365,7 +388,7 @@ export default {
   watch: {
     /**
      * theo dõi đóng mở dialog và thực hiện các tác vụ
-     * CreatedBy : NGDuong(14/06/2021)
+     * CreatedBy : NGDuong(23/07/2021)
      */
     dialogAddOrUpdate() {
       // đóng dialog
@@ -396,7 +419,7 @@ export default {
 
     /**
      * Theo dõi giá trị thông tin nhân viên
-     * CreatedBy: NGDuong(14/06/2021)
+     * CreatedBy: NGDuong(23/07/2021)
      */
     employeeDetail() {
       // format giá trị ngày tháng
@@ -414,7 +437,7 @@ export default {
 
     /**
      * Theo dõi giá trị mã nhân viên thay đổi
-     * CreatedBy : NGDuong(14/06/2021)
+     * CreatedBy : NGDuong(23/07/2021)
      */
     "employee.employeeCode"() {
       if (this.employee.employeeCode.length > 0) {
@@ -424,7 +447,7 @@ export default {
 
     /**
      * Theo dõi giá trị tên nhân viên thay đổi
-     * CreatedBy: NGDuong(14/06/2021)
+     * CreatedBy: NGDuong(23/07/2021)
      */
     "employee.fullName"() {
       if (this.employee.fullName.length > 0) {
@@ -434,7 +457,7 @@ export default {
 
     /**
      * Theo dõi id phòng ban thay đổi
-     * CreatedBy : NGDuong(16/06/2021)
+     * CreatedBy : NGDuong(21/07/2021)
      */
     "employee.deparmentId"() {
       if (this.employee.deparmentId.length > 0) {
@@ -452,43 +475,50 @@ export default {
      * Cập nhật khi ấn enter ở button
      * CreatedBy: NGDuong (20/07/2021)
      */
-    enter(value){
-      if(value === "Hủy"){
-
-      }else if(value === "Cất"){
+    enter(value) {
+      if (value === "Hủy") {
+        this.$emit("handleCloseDialog");
+      } else if (value === "Cất") {
         this.handleAddOrUpdate();
-      }
-      else if(value === "Cất và Thêm"){
+      } else if (value === "Cất và Thêm") {
         this.handleSaveAndAdd();
-      }
-      else {
-
+      } else {
       }
     },
     /**
      * Thay đổi chế độ cất và thêm
-     * CreatedBy : NGDuong(12/06/2021)
+     * CreatedBy : NGDuong(22/07/2021)
      *
      */
     handleSaveAndAdd() {
       // kiểm tra validate dữ liệu
       this.saveAndAddMode = true; // bật mode cất và thêm
+      this.handleCheckCodeExists();
       if (this.validate()) {
         if (!this.modeUpdate) {
           this.handleAdd();
         } else this.handelUpdate();
       }
     },
+
+    /**
+     * checkbox
+     * CreatedBy: NGDuong (21/07/2021)
+     */
+    handleCheckBox() {
+      this.isCheckBox = !this.isCheckBox;
+    },
+
     /**
      * Get dữ liệu đã chọn từ auto complete
-     * CreatedBy: NGDuong (15/07/2021)
+     * CreatedBy: NGDuong (20/07/2021)
      */
     getDepartmentId(data) {
       this.employee.deparmentId = data;
     },
     /**
      * đóng dialog cảnh báo
-     * CreatedBy : NGDuong(12/6/2021)
+     * CreatedBy : NGDuong(20/07/2021)
      */
     handleCloseDangerDialog() {
       this.dialogNotifyDanger = false;
@@ -496,7 +526,7 @@ export default {
 
     /**
      * đóng dialog báo lỗi
-     * CreatedBy : NGDuong(12/6/2021)
+     * CreatedBy : NGDuong(20/07/2021)
      */
     handleCloseErrorDialog() {
       this.dialogNotifyError = false;
@@ -504,7 +534,7 @@ export default {
 
     /**
      * đóng dialog báo lỗi
-     * CreatedBy : NGDuong(12/6/2021)
+     * CreatedBy : NGDuong(20/07/2021)
      */
     handleCloseConfirmDialog() {
       this.dialogNotifyConfirm = false;
@@ -512,7 +542,7 @@ export default {
 
     /**
      * đóng tất cả dialog hiện tại
-     * CreatedBy: NGDuong(12/6/2021)
+     * CreatedBy: NGDuong(20/07/2021)
      */
     handleCloseAllDialog() {
       this.handleCloseConfirmDialog();
@@ -521,7 +551,7 @@ export default {
 
     /**
      * thêm hoặc sửa nhân viên
-     * CreatedBy : NGDuong(12/06/2021)
+     * CreatedBy : NGDuong(22/07/2021)
      */
     handleAddOrUpdate() {
       // kiểm tra validate dữ liệu
@@ -538,38 +568,40 @@ export default {
 
     /**
      * Kiểm tra dữ liệu
-     * CreatedBy : NGDuong(13/06/2021)
+     * CreatedBy : NGDuong(24/07/2021)
      */
     validate() {
       var isValid = true;
-      if (this.employee.deparmentId.length == 0) {
-        this.notifyMessage = "Đơn vị không được để trống";
-        this.errorNotifyDepartment.status = true;
-        this.errorNotifyDepartment.errorMessage = "Đơn vị không được để trống";
-        // this.dialogNotifyError = true;
-        isValid = false;
-      }
-
       if (this.employee.fullName.length == 0) {
         this.notifyMessage = "Tên không được để trống";
         this.errorNotifyFullName.status = true;
         this.errorNotifyFullName.errorMessage = "Tên không được để trống";
-        // this.dialogNotifyError = true; // hiển thị dialog báo lỗi
+        this.dialogNotifyError = true;
         isValid = false;
       }
+
+      if (this.employee.deparmentId.length == 0) {
+        this.notifyMessage = "Đơn vị không được để trống";
+        this.errorNotifyDepartment.status = true;
+        this.errorNotifyDepartment.errorMessage = "Đơn vị không được để trống";
+        this.dialogNotifyError = true;
+        isValid = false;
+      }
+
       if (this.employee.employeeCode.length == 0) {
         this.notifyMessage = "Mã nhân viên không được để trống";
         this.errorNotifyCode.status = true;
         this.errorNotifyCode.errorMessage = "Mã không được để trống";
-        // this.dialogNotifyError = true; // hiển thị dialog báo lỗi
+        this.dialogNotifyError = true;
         isValid = false;
       }
+
       return isValid;
     },
 
     /**
      * thêm nhân viên
-     * CreatedBy : NGDuong(12/06/2021)
+     * CreatedBy : NGDuong(22/07/2021)
      */
     async handleAdd() {
       this.employee.employeeId = uuidv4();
@@ -605,8 +637,30 @@ export default {
     },
 
     /**
+     * Kiểm tra mã nhân viên đã tồn tại trong hệ thống chưa
+     * return:
+     *  true: Có tồn tại
+     *  false: không tồn tại
+     * CreatedBy: NGDuong (21/07/2021)
+     */
+    async handleCheckCodeExists() {
+      try {
+        const data = await axios.get(
+          `https://localhost:44376/api/v1/Employees/CodeExists?code=${this.employee.employeeCode}`
+        );
+        if (data.status == "200") {
+          this.notifyMessage =
+            "Mã nhân viên <" +
+            this.employee.employeeCode +
+            "> đã tồn tại trong hệ thống, vui lòng kiểm tra lại!";
+          this.dialogNotifyDanger = true; // hiển thị dialog cảnh báo
+        }
+      } catch (error) {}
+    },
+
+    /**
      * Cập nhật thông tin nhân viên
-     * CreatedBy : NGDuong(12/06/2021)
+     * CreatedBy : NGDuong(22/07/2021)
      */
     async handelUpdate() {
       try {
@@ -643,7 +697,7 @@ export default {
     /**
      * format lại giá trị ngày tháng để hiển thị
      * @param="date" : giá trị ngày cần format
-     * CreatedBy : NGDuong(12/06/2021)
+     * CreatedBy : NGDuong(22/07/2021)
      */
     formatDateEmployee(date) {
       if (date) {
@@ -655,7 +709,7 @@ export default {
     /**
      * chuyển đổi giá trị ngày tháng về yyyy-mm-dd
      * @param="date" : giá trị ngày cần format
-     * CreatedBy : NGDuong(12/06/2021)
+     * CreatedBy : NGDuong(22/07/2021)
      */
     formatDate(date) {
       if (date) {
@@ -671,8 +725,8 @@ export default {
     },
 
     /**
-     * bắt sự kiện đóng dialog và thự hiện so sánh dữ liệu để đưa ra thông báo
-     * CreatedBy : NGDuong(14/06/2021)
+     * bắt sự kiện đóng dialog và thực hiện so sánh dữ liệu để đưa ra thông báo
+     * CreatedBy : NGDuong(23/07/2021)
      */
     onClose() {
       if (this.modeUpdate) {
@@ -690,7 +744,7 @@ export default {
      * Kiểm tra xem có sự thay đổi dữ liệu hay không
      * @param="object1" : object cần so sánh
      * @param="object2" : object cần so sách
-     * CreatedBy : NGDuong(14/07/2021)
+     * CreatedBy : NGDuong(24/07/2021)
      */
     handleCompareObject(object1, object2) {
       const keys1 = Object.keys(object1);
@@ -711,7 +765,7 @@ export default {
 
     /**
      * Lấy mã nhân viên mới
-     * CreatedBy: NGDuong(12/06/2021)
+     * CreatedBy: NGDuong(22/07/2021)
      */
     async getNewEmployeeCode() {
       try {
@@ -769,10 +823,12 @@ $color-title: #111;
       .checkbox {
         margin: 0 15px 0 15px;
         @include flex;
-        min-width: 63%;
+        width: 63%;
+        min-width: 60px;
       }
       .modal-close {
         padding-left: 12px;
+        margin-right: 10px;
         @include flex;
 
         .modal-icon {
@@ -828,7 +884,7 @@ $color-title: #111;
           .right-1 {
             @include flex;
             @include widthHeight(100%, 33.33%);
-  
+
             .attr-dob {
               @include widthHeight(40%, 100%);
             }
@@ -882,6 +938,7 @@ $color-title: #111;
           margin-left: 25px;
           .attr-account {
             @include widthHeight(25%, 100%);
+            min-width: 25%;
           }
           .attr-bank {
             @include widthHeight(25%, 100%);
@@ -893,26 +950,29 @@ $color-title: #111;
       }
     }
     .container-bottom {
-      @include widthHeight(100%, 15%);
+      @include widthHeight(95%, 15%);
       display: flex;
       justify-content: space-between;
+      margin-left: 2.5%;
+      border-top: 1px solid #e0e0e0;
 
-      .btn-close{
+      .btn-close {
         @include widthHeight(10%, 100%);
-        margin-left: 25px;
-        margin-top: 10px;
+        margin-left: 5px;
+        margin-top: 20px;
       }
 
-      .btn-save{
+      .btn-save {
         @include widthHeight(25%, 100%);
         @include flex;
-        margin-left: 25px;
-        margin-top: 10px;
-        .btn-cat{
+        margin-top: 20px;
+        padding-left: 10px;
+        .btn-cat {
           @include widthHeight(30%, 100%);
+          margin-right: 10px;
         }
 
-        .btn-saveAndAdd{
+        .btn-saveAndAdd {
           @include widthHeight(70%, 100%);
         }
       }
@@ -941,5 +1001,6 @@ $color-title: #111;
 
 .gender-label {
   margin-bottom: 8px;
+  margin-left: 20px;
 }
 </style>

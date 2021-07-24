@@ -126,6 +126,7 @@ export default {};
 .name-user {
   color: #111;
   font-weight: 600;
+  font-size: 16px;
 }
 .avatar-icon {
   @include widthHeight(32px,32px);

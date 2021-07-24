@@ -12,8 +12,8 @@
             </div>
           </template>
 
-          <v-card height="600px">
-            <AddAndUpdate           
+          <v-card height="600px" @keydown.esc="closeDialog">
+            <EmployeeDetail
               :employeeDetail="employeeDetail"
               @handleCloseDialog="closeDialog"
               @handleShowDialog="showDialog"
@@ -90,7 +90,7 @@
         <table class="table">
           <thead>
             <tr>
-              <th class="table-head-checkbox"><CheckboxField /></th>
+              <th class="table-head-checkbox"><div @click="isCheckBox = !isCheckBox"><CheckboxField :isCheck="isCheckBox"/></div></th>
               <th class="m-150">
                 Mã nhân viên
                 <div class="line"></div>
@@ -147,9 +147,10 @@
               :employee="employee"
               @handleGetEmployeeID="getEmployeeID"
               @handleReload="getListEmployee"
-              :listDeparment="listDepartment"
+              :listDepartment="listDepartment"
               :listDepartmentCombobox="listDepartmentCombobox"
               @duplicateEmployee="handleDuplicateEmployee"
+              :isCheckBox="isCheckBox"
             />
             <!-- End of employee detail -->
             <!--  -->
@@ -167,16 +168,8 @@
       </div>
       <div class="pagination-wrapper">
         <div class="dropdown-pagiantion">
-          <!-- <CustomSelect
-            tabindex="0"
-            label_key="name"
-            value_key="value"
-            :options="options"
-            v-model="pageSize"
-            @changeValue="handleChangeValue"
-          /> -->
           <div style="witdh: 200px; height: 32px">
-            <Combobox 
+            <Combobox
               v-model="pageSize"
               :value.sync="pageSize"
               :suggestions="options"
@@ -196,7 +189,6 @@
             v-model="pageInt"
             :length="totalPage"
             color="#fff"
-            circle
           ></v-pagination>
 
           <button
@@ -222,13 +214,11 @@ import CheckboxField from "../commons/CheckboxField.vue";
 import Button from "../commons/Button.vue";
 import Combobox from "../commons/Combobox.vue";
 import InputField from "../commons/InputField.vue";
-import Dialog from "../commons/Dialog.vue";
 import axios from "axios";
 import "../../css/table.css";
 import Employee from "../Employee/Employee.vue";
-import AddAndUpdate from "../Employee/AddAndUpdate.vue";
+import EmployeeDetail from "../Employee/EmployeeDetail.vue";
 import queryString from "query-string";
-import CustomSelect from "../commons/CustomSelect.vue";
 import DialogNotify from "../commons/DialogNotify.vue";
 //#endregion
 
@@ -238,18 +228,17 @@ export default {
     CheckboxField,
     Button,
     InputField,
-    Dialog,
     Employee,
-    CustomSelect,
     DialogNotify,
     Combobox,
-    AddAndUpdate,
+    EmployeeDetail,
   },
   //#endregion
 
   //#region Data
   data() {
     return {
+      isCheckBox: false, // thay đổi checkBox
       filterValue: null, // giá trị ô filter
       dialogAddOrUpdate: false, // ẩn hiện dialog
       isShowTableSelect: false,
@@ -263,8 +252,7 @@ export default {
       totalItem: 0, // số lượng bản ghi được trả về
       dialogNotify: false, // hiển thị dialog thông báo cho người dùng
       notifyMessage: "", // message được hiển thị trên dialog
-      // Giá trị option truyền vào customSelect
-      listDepartmentCombobox: [],
+      listDepartmentCombobox: [], // Giá trị option truyền vào customSelect
       options: [
         {
           value: 10,
@@ -386,7 +374,7 @@ export default {
      * Createdby: NGDuong (19/07/2021)
      */
     mouseLocation() {
-      this.$refs.position.style.top +=  10 + "px";
+      this.$refs.position.style.top += 10 + "px";
       this.$refs.position.style.left += 35 + "px";
     },
 
@@ -401,7 +389,7 @@ export default {
 
     /**
      * Chuyển đến page đằng trước
-     * NGDuong (!7/07/2021)
+     * NGDuong (20/07/2021)
      */
     handlePrev() {
       if (this.pageInt > 1) {
@@ -411,7 +399,7 @@ export default {
 
     /**
      * Chuyển đến page phía sau
-     * NGDuong (!7/07/2021)
+     * NGDuong (20/07/2021)
      */
     handleNext() {
       if (this.pageInt < this.totalPage) {
@@ -422,7 +410,7 @@ export default {
     /**
      * lấy giá trị pageSize mới
      * @param = "value" : giá trị của page size
-     * NGDuong (!7/07/2021)
+     * NGDuong (20/07/2021)
      */
     handleChangeValue(value) {
       this.pageSize = value;
@@ -431,7 +419,7 @@ export default {
     /**
      * Hiển thị thông bán cho người dùng
      * @param="message" : Nội dung thông báo cần hiển thị
-     * NGDuong (!7/07/2021)
+     * NGDuong (20/07/2021)
      */
     handleNotify(message) {
       this.notifyMessage = message;
@@ -441,7 +429,7 @@ export default {
     /**
      * thực hiện nhân bản thông tin nhân viên
      * @param="employeeId" : id nhân viên cần lấy thông tin
-     * NGDuong (!7/07/2021)
+     * NGDuong (20/07/2021)
      */
     handleDuplicateEmployee(employeeId) {
       this.getEmployeeInfo(employeeId);
@@ -457,7 +445,7 @@ export default {
     },
     /**
      * Tìm kiếm theo tên hoặc mã nhân viên
-     * NGDuong (!7/07/2021)
+     * NGDuong (20/07/2021)
      */
     handelFilter() {
       this.pageInt = 1;

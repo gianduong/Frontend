@@ -47,7 +47,7 @@ export default {
   props: {
     /**
      * Danh sách suggestion của autocomplete.
-     * Createdby: NGDuong (20/07/2021) 
+     * Createdby: NGDuong (22/07/2021) 
      */
     suggestions: { // 
       type: Object,
@@ -56,7 +56,7 @@ export default {
 
     /**
      * Giá trị khởi tạo cho input
-     * Createdby: NGDuong (20/07/2021) 
+     * Createdby: NGDuong (22/07/2021) 
      */
     value: {
       type: Number/String,
@@ -69,19 +69,19 @@ export default {
   data: () => ({
     /**
      * Xác định trạng thái popup autocomplete
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     isShow: false,
 
     /**
      * vị trí hiện tại
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     current: 0,
 
     /**
      * Danh sách suggesstion của autocomplete có lọc
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     suggestionData: [],
 
@@ -92,7 +92,7 @@ export default {
     valueInput: "",
     /**
      * bien xoay theo su kien click
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     statusClick: false,
   }),
@@ -102,7 +102,7 @@ export default {
   watch:{
     /**
      * cập nhật sự thay đổi của combobox
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     valueInput: function (value) {
       if (value != "") {
@@ -116,7 +116,7 @@ export default {
   methods: {
     /**
      * Đảo ngược trạng thái popup
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (2207/2021)
      */
     toggleSuggestion() {
       if (this.isShow) {
@@ -128,28 +128,28 @@ export default {
     },
     /**
      * Emit get data
-     * CreatedBy: NGDuong (15/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     getData(){
       this.$emit("getDepartmentId", this.suggestionData[this.current].value);
     },
     /**
      * getIndex
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     getIndex() {
       console.log("id=" + this.suggestionData[this.current].value);
     },
     /**
      * get Value
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     getValue() {
       console.log("value=" + this.suggestionData[this.current].name);
     },
     /**
      * Hiển thị popup
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     showSuggestion() {
       this.$el.querySelector("input").focus();
@@ -158,7 +158,7 @@ export default {
     },
     /**
      * Nhấn enter
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     enter() {
       this.valueInput = this.suggestionData[this.current].name;
@@ -169,7 +169,7 @@ export default {
 
     /**
      * Nhấn up
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     up() {
       if (this.current > 0) this.current--;
@@ -178,7 +178,7 @@ export default {
 
     /**
      * Nhấn down
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     down() {
       if (this.current < this.suggestions.length - 1) this.current++;
@@ -186,7 +186,7 @@ export default {
     },
     /**
      * Chọn một suggesstion
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     clickSuggestion(suggestion, index) {
       this.current = index;
@@ -197,7 +197,7 @@ export default {
 
     /**
      * Blur input
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     onBlur() {
       setTimeout(() => {
@@ -209,7 +209,7 @@ export default {
 
     /**
      * Nhập vào input
-     * CreatedBy: NGDuong (20/07/2021)
+     * CreatedBy: NGDuong (22/07/2021)
      */
     onInput(e) {
       let val = e.target.value;

@@ -13,8 +13,7 @@
       ></div>
       <div class="modal-message">
         <p v-if="type == 'confirm'">
-          Bạn có thực sự muốn xóa Nhân viên
-          <span> {{ employeeCode }}</span>
+          Bạn có thực sự muốn xóa Nhân viên &lt;<span>{{ employeeCode }}</span>&gt;
           không?
         </p>
         <p v-if="type == 'notify-danger'">
